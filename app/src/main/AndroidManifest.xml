@@ -13,31 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TimeTracker"></activity>
-
         <service
-            android:name=".JDistanceService"
+            android:name=".SpeedometerService"
             android:enabled="true"
-            android:exported="false" />
-        <service
-            android:name=".DistanceService"
-            android:enabled="true"
-            android:exported="false" />
+            android:exported="false"></service>
 
-        <activity android:name=".SpeedometerMode" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".KSpeedometer">
+        <activity android:name=".Speedometer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".JDistanceService"
-            android:enabled="true"
-            android:exported="false" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
