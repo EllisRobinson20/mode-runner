@@ -18,6 +18,7 @@ import kotlin.properties.Delegates
 
 class SpeedometerService : IntentService("Speedometer Service")
 {
+    var Tag: String = "IntentService"
 
     var distanceToRun: ArrayList<Int> = ArrayList()
     var listView: ListView? = null
@@ -38,12 +39,6 @@ class SpeedometerService : IntentService("Speedometer Service")
         }
     }
 
-
-    var Tag: String = "IntentService"
-
-
-
-
     override fun onHandleIntent(intent: Intent?) {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -62,11 +57,6 @@ class SpeedometerService : IntentService("Speedometer Service")
         }
 
         startLocationUpdates()
-
-
-
-
-
 
         ////ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
 
