@@ -1,23 +1,16 @@
 package com.college.moderunnermvp
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import kotlin.properties.Delegates
 
 class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     EasyPermissions.RationaleCallbacks {
@@ -25,53 +18,17 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     var listView: ListView? = null
     var adapter: ArrayAdapter<Int>? = null
     var Tag: String = "DistanceToRun"
-    val PERMISSION_ID = 42
-    var speedometer:Speedometer = this
-
-    private val LOCATION_PERMISSION_CODE = 124
-
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var locationRequest: LocationRequest
-    private lateinit var locationCallback: LocationCallback
-
-    private var isDone: Boolean by Delegates.observable(false){ property, oldValue, newValue ->
-        if (newValue==true) {
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
         listView = findViewById(R.id.main_listview)
         loadListView()
-
-
-        /*fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        askForLocalPosition()
-        createLocationRequest()
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
-                if (!isDone) {
-                    val speedToInt = locationResult.lastLocation.longitude.toInt()
-                    calulateSpeed(speedToInt)
-                    ///add the result to view component here
-                }
-            }
-        }*/
     }
-
     override fun onPause() {
         Log.i(Tag, "onPause")
         super.onPause()
     }
-
-    private fun calulateSpeed(speedToInt: Int) {
-        Log.i(Tag, "calculate speed result : $speedToInt")
-    }
-
     fun onStartClick(view: View) {
         val textReceived = distance_input.text.toString().toInt()
         distanceToRun.add(textReceived)
@@ -88,7 +45,6 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         intent.putExtra(Tag,text)
         startService(intent)
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
