@@ -47,7 +47,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         loadListView()
 
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        /*fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askForLocalPosition()
         createLocationRequest()
 
@@ -60,42 +60,12 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                     ///add the result to view component here
                 }
             }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        startLocationUpdates()
-    }
-
-    private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
+        }*/
     }
 
     override fun onPause() {
+        Log.i(Tag, "onPause")
         super.onPause()
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
     private fun calulateSpeed(speedToInt: Int) {
@@ -119,50 +89,6 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         startService(intent)
     }
 
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest().apply {
-            interval = 0
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-    }
-
-    fun askForLocalPosition() {
-        if (hasLocationPermissions()) {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
-            fusedLocationProviderClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-
-                }
-        } else {
-            EasyPermissions.requestPermissions(
-                this,
-                "need permissions to find your location and calculate the speed",
-                LOCATION_PERMISSION_CODE,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        }
-    }
-
-    private fun hasLocationPermissions(): Boolean {
-        return EasyPermissions.hasPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -171,13 +97,11 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions,grantResults,this)
     }
-
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this,perms)){
             AppSettingsDialog.Builder(this).build().show()
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE){
@@ -186,16 +110,12 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             Toast.makeText(this, "onActivityResult",Toast.LENGTH_LONG).show()
         }
     }
-
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
 
     }
-
     override fun onRationaleDenied(requestCode: Int) {
 
     }
-
     override fun onRationaleAccepted(requestCode: Int) {
     }
-
 }
