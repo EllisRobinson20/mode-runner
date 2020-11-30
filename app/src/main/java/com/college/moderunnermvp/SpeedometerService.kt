@@ -10,9 +10,10 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 
@@ -25,6 +26,13 @@ class SpeedometerService : IntentService("Speedometer Service")
     var adapter: ArrayAdapter<Int>? = null
     //var Tag: String = "DistanceToRun"
     val PERMISSION_ID = 42
+
+    var distances: Vector<Float> = Vector(0,1)
+    var locations: Vector<Location> = Vector(0,1)
+    var speeds: Vector<Float> = Vector(0, 1)
+    var distanceTotal: Float = 0.0f
+
+    var globalCounter: Int = 0
 
 
     private val LOCATION_PERMISSION_CODE = 124
@@ -49,9 +57,10 @@ class SpeedometerService : IntentService("Speedometer Service")
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult ?: return
                 if (!isDone) {
-                    val speedToInt = locationResult.lastLocation.longitude.toInt()
-                    calulateSpeed(speedToInt)
+                   // val speedToDouble = locationResult.lastLocation.speed.toDouble()
+                    //calulateSpeed(speedToDouble)
                     ///add the result to view component here
+                    updateSession(intent, locationResult)
                 }
             }
         }
@@ -68,6 +77,37 @@ class SpeedometerService : IntentService("Speedometer Service")
         var i = distanceInt?.times(2).toString()
         Log.i("Tag",i)*/
 
+    }
+
+    private fun updateSession(intent: Intent?, result: LocationResult) {
+        updateLocation(result)
+        updateDistance(result)
+        updateSpeed(result)
+        //var current: Float = result.lastLocation.distanceTo(location)
+        Log.i(Tag, "calculation result : $locations")
+        globalCounter++
+    }
+
+    private fun updateSpeed(result: LocationResult) {
+        var speed = result.lastLocation.speed
+        speeds.add(speed)
+    }
+
+    private fun updateDistance(result: LocationResult) {
+        var distance = result.lastLocation.distanceTo(locations.lastElement())
+        distances.add(distance)
+        distanceTotal+= distance
+    }
+
+    private fun updateLocation(result: LocationResult) {
+        var lat = result.lastLocation.latitude
+        var long = result.lastLocation.longitude
+
+        var location = Location("Location $globalCounter")
+        location.latitude = lat
+        location.longitude = long
+        location.speed
+        locations.add(location)
     }
 
     override fun onCreate() {
@@ -159,13 +199,8 @@ class SpeedometerService : IntentService("Speedometer Service")
         return EasyPermissions.hasPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    private fun calulateSpeed(speedToInt: Int) {
-        Log.i(Tag, "calculate speed result : $speedToInt")
+    private fun calulateSpeed(speedToDouble: Double) {
+        Log.i(Tag, "calculate speed result : $speedToDouble")
 
     }
 }
-
-
-
-
-
