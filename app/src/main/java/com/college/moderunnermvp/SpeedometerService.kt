@@ -5,6 +5,7 @@ import android.app.IntentService
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -27,10 +28,15 @@ class SpeedometerService : IntentService("Speedometer Service")
     //var Tag: String = "DistanceToRun"
     val PERMISSION_ID = 42
 
-    var distances: Vector<Float> = Vector(0,1)
-    var locations: Vector<Location> = Vector(0,1)
-    var speeds: Vector<Float> = Vector(0, 1)
-    var distanceTotal: Float = 0.0f
+    var distances: Vector<Float> = Vector(1,1)
+    var locations: Vector<Location> = Vector(1,1)
+    var speeds: Vector<Float> = Vector(1, 1)
+    var times: Vector<Long> = Vector(1,1)
+    var distanceTotal: Double = 0.00
+
+    var result: ArrayList<Float> = ArrayList(0)
+    var result_to__add = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f) // distance , time , speed , acceleration , total distance covered
+
 
     var globalCounter: Int = 0
 
@@ -57,7 +63,7 @@ class SpeedometerService : IntentService("Speedometer Service")
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult ?: return
                 if (!isDone) {
-                   // val speedToDouble = locationResult.lastLocation.speed.toDouble()
+                    // val speedToDouble = locationResult.lastLocation.speed.toDouble()
                     //calulateSpeed(speedToDouble)
                     ///add the result to view component here
                     updateSession(intent, locationResult)
@@ -80,23 +86,43 @@ class SpeedometerService : IntentService("Speedometer Service")
     }
 
     private fun updateSession(intent: Intent?, result: LocationResult) {
+        globalCounter++
         updateLocation(result)
         updateDistance(result)
         updateSpeed(result)
         //var current: Float = result.lastLocation.distanceTo(location)
-        Log.i(Tag, "calculation result : $locations")
-        globalCounter++
     }
 
     private fun updateSpeed(result: LocationResult) {
-        var speed = result.lastLocation.speed
-        speeds.add(speed)
+        /*var speed = result.lastLocation.speed
+        speeds.add(speed)*/
+        times.add(System.currentTimeMillis())
+
+        Log.i(Tag, "Times: +"+ times)
+
     }
 
     private fun updateDistance(result: LocationResult) {
-        var distance = result.lastLocation.distanceTo(locations.lastElement())
-        distances.add(distance)
-        distanceTotal+= distance
+        /*var distanceFromLat = result.lastLocation.latitude
+        var distanceFromLong = result.lastLocation.longitude
+        var previousLocation = Location("PreviousLocation")
+        previousLocation.latitude = distanceFromLat
+        previousLocation.longitude = distanceFromLong*/
+        var distance = result.lastLocation.distanceTo(locations[locations.size-2])
+        if(distance< 10000)
+            distances.add(distance)
+        else
+            distances.add(0.0f)
+
+        distanceTotal += distances.lastElement()
+
+        result_to__add.set(0,distance)
+        result_to__add.set(4, distanceTotal.toFloat())
+
+        Log.i(Tag, "DISTANCE" +result_to__add[0])
+        Log.i(Tag, "TOTALDISTANCE" +result_to__add[4])
+        Log.i(Tag, "DISTANCE ARRAY " +distances)
+        //Log.i(Tag, "DISTANCE TOTAL " +distanceTotal)
     }
 
     private fun updateLocation(result: LocationResult) {
@@ -106,13 +132,15 @@ class SpeedometerService : IntentService("Speedometer Service")
         var location = Location("Location $globalCounter")
         location.latitude = lat
         location.longitude = long
-        location.speed
+        location.speed //??
         locations.add(location)
+        Log.i(Tag, "location calculation result : $location")
     }
 
     override fun onCreate() {
         Log.i(Tag, "onCreate")
         super.onCreate()
+        locations.add(0, Location("location $globalCounter"))
     }
 
 

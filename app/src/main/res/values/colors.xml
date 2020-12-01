@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary"></color>
+    <color name="colorPrimaryVariant"></color>
+    <color name="colorOnPrimary"></color>
+    <color name="colorSecondary"></color>
+    <color name="colorSecondaryVariant"></color>
+    <color name="colorOnSecondary"></color>
+    <color name="colorBackground"></color>
+    <color name="colorOnBackground"></color>
+    <color name="colorSurface"></color>
+    <color name="colorOnSurface"></color>
+    <color name="colorError"></color>
+    <color name="colorOnError"></color>
 </resources>

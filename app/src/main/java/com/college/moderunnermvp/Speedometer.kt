@@ -1,5 +1,6 @@
 package com.college.moderunnermvp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,22 +9,32 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
+
+class Speedometer : FragmentActivity(), EasyPermissions.PermissionCallbacks,
     EasyPermissions.RationaleCallbacks {
     var distanceToRun: ArrayList<Int> = ArrayList()
     var listView: ListView? = null
     var adapter: ArrayAdapter<Int>? = null
     var Tag: String = "DistanceToRun"
 
+    var timeTrackerFragment: TimeTracker = TimeTracker()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
         listView = findViewById(R.id.main_listview)
         loadListView()
+
+        if (savedInstanceState==null){
+            supportFragmentManager.beginTransaction()
+                .add(R.id.time_tracker,timeTrackerFragment, "Time Tracking Fragment")
+                .commit()
+        }
     }
     override fun onPause() {
         Log.i(Tag, "onPause")

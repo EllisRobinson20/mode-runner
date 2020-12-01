@@ -6,4 +6,6 @@
     <string name="start">Start</string>
     <string name="current_location">Current Location:</string>
     <string name="type_in_a_distance">type in a distance ...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="prompter_label">Ready ...</string>
 </resources>
