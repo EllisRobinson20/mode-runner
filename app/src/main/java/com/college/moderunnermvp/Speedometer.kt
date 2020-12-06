@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_speedometer.*
@@ -15,7 +16,7 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 
-class Speedometer : FragmentActivity(), EasyPermissions.PermissionCallbacks,
+class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     EasyPermissions.RationaleCallbacks {
     var distanceToRun: ArrayList<Int> = ArrayList()
     var listView: ListView? = null
@@ -85,4 +86,9 @@ class Speedometer : FragmentActivity(), EasyPermissions.PermissionCallbacks,
     }
     override fun onRationaleAccepted(requestCode: Int) {
     }
+
+
+
+
+
 }

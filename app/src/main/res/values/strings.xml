@@ -5,7 +5,22 @@
     <string name="get_location">Get Location</string>
     <string name="start">Start</string>
     <string name="current_location">Current Location:</string>
+    <string name="metre_second_squared">ms\u00B2</string>
+    <string name="metre_second">ms</string>
+    <string name="top_speed">Top Speed</string>
+    <string name="acceleration">Acceleration</string>
+    <string name="currentSpeed">Current Speed</string>
+    <string name="numbers_top_speed">0.0</string>
+    <string name="numbers_acceleration">0.0</string>
+    <string name="numbers_current_speed">0.0</string>
+    <string name="numbers_distance">0.0</string>
+    <string name="numbers_time">00:00</string>
+    <string name="numbers_average_speed">0.0</string>
     <string name="type_in_a_distance">type in a distance ...</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="prompter_label">Ready ...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="metre">m</string>
+    <string name="distance_left">100</string>
 </resources>
