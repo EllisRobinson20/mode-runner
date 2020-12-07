@@ -22,9 +22,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="metre">m</string>
+    <string name="centimetre">cm</string>
     <string name="distance_left">100</string>
     <string name="text_menu_home">Home</string>
     <string name="txt_menu_speed">Speed</string>
     <string name="txt_menu_heart">heart</string>
     <string name="txt_menu_settings">Settings</string>
+    <string name="kilogram">kg</string>
 </resources>

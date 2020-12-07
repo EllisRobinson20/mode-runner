@@ -1,46 +1,40 @@
 package com.college.moderunnermvp
 
 import android.content.Context
-import android.content.Intent
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.ArrayAdapter
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_speedometer.*
-
+import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.fragment_time_tracker.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [TimeTracker.newInstance] factory method to
+ * Use the [FragmentSettings.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TimeTracker : Fragment() {
+class FragmentSettings : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     //private var param2: String? = null
 
-    private var listener : FragmentSettings.OnFragmentInteractionListener? = null
-
+    private var listener : OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i("tag", "onCreate")
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             //param2 = it.getString(ARG_PARAM2)
-
         }
     }
 
@@ -48,34 +42,48 @@ class TimeTracker : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("tag", "onCreateView")
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_tracker, container, false)
-    }
+        val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
+        val distanceInput : EditText = view.findViewById(R.id.distance_input)
+           /* distanceInput.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        txt_distance_remaining.text = param1
-        startButton.setOnClickListener { view ->
-            startSpeedometerService()
-            Toast.makeText(activity, view.id, Toast.LENGTH_SHORT ).show()
-            Log.i("tag","onViewCreated fires")
-        }
-        super.onViewCreated(view, savedInstanceState)
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                    listener?.onFragmentInteraction(s.toString().toInt())
+                }
+
+            })*/
+        return view
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentSettings.OnFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException("$context must be implemented OnFragmentInteractionListener")
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (distance_input.text.isNotBlank()) {
+            listener?.onFragmentInteraction(distance_input.text.toString().toInt())
+        }
+    }
+
+
     override fun onDestroyView() {
-       // val textReceived = distance_input.text.toString().toInt()
+        //val textReceived = distance_input.text.toString().toInt()
         //Toast.makeText(activity, textReceived.toString(), Toast.LENGTH_SHORT).show()
-        //listener?.onFragmentInteraction(distance_input.text.toString().toInt())
+        if (distance_input.text.isNotBlank()) {
+            listener?.onFragmentInteraction(distance_input.text.toString().toInt())
+        }
         super.onDestroyView()
     }
 
@@ -91,38 +99,19 @@ class TimeTracker : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment TimeTracker.
+         * @return A new instance of fragment FragmentSettings.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            TimeTracker().apply {
+            FragmentSettings().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     //putString(ARG_PARAM2, param2)
                 }
             }
     }
-
-
-
-    fun startSpeedometerService() {
-        Log.i("App", "startSpeedometerMode")
-        val intent = Intent(activity, SpeedometerService::class.java)
-        val textReceived = distance_input.text.toString().toInt()
-        if (distance_input != null || distance_input.inputType.equals(Int)) {
-
-            intent.putExtra("DistanceToRun",textReceived)
-            Toast.makeText(activity, textReceived, Toast.LENGTH_SHORT).show()
-            Log.i("speedometerService", "startSpeedometer service working "+ textReceived)
-        }
-
-
-        activity?.startService(intent)
-        //
-
-    }
-    interface OnFragmentInteractionListener2{
-        fun onFragmentInteraction2(someNumber: Int)
+    interface OnFragmentInteractionListener{
+        fun onFragmentInteraction(someNumber: Int)
     }
 }

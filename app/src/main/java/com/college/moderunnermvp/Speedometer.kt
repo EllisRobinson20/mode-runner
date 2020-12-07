@@ -22,13 +22,18 @@ import pub.devrel.easypermissions.EasyPermissions
 
 
 class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
-    EasyPermissions.RationaleCallbacks {
+    EasyPermissions.RationaleCallbacks, FragmentSettings.OnFragmentInteractionListener, TimeTracker.OnFragmentInteractionListener2 {
     var distanceToRun: ArrayList<Int> = ArrayList()
     var listView: ListView? = null
     var adapter: ArrayAdapter<Int>? = null
     var Tag: String = "DistanceToRun"
 
     var timeTrackerFragment: TimeTracker = TimeTracker()
+    var settingsFragment: FragmentSettings = FragmentSettings()
+    var timeTrackerTag: String = "time_tracker_tag"
+    var settingsTag: String = "settings_tag"
+    var msgFromSettingsFrag : Int? = null
+    var msgFromTimeTracker : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +41,28 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         listView = findViewById(R.id.main_listview)
         loadListView()
 
-        if (savedInstanceState==null){
+        /*if (savedInstanceState==null){
             supportFragmentManager.beginTransaction()
-                .add(R.id.time_tracker,timeTrackerFragment, "Time Tracking Fragment")
+                .replace(R.id.time_tracker,timeTrackerFragment, timeTrackerTag)
                 .commit()
-        }
+        }*/
 
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.nav_home -> Toast.makeText(this, "home button selected", Toast.LENGTH_SHORT).show()
-                R.id.nav_speed -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_home -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_speed -> {
+                   // timeTrackerFragment = TimeTracker.newInstance(msgFromSettingsFrag.toString(),"")
+                    supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
+                        .addToBackStack(null)
+                .commit() }
                 R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
-                R.id.nav_settings -> Toast.makeText(this, "settings button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_settings ->{
+                   // settingsFragment = FragmentSettings.newInstance(msgFromTimeTracker.toString(), "")
+                    supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_settings, settingsFragment, settingsTag)
+                    .addToBackStack(null)
+                    .commit() }
             }
         }
     }
@@ -57,7 +72,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         super.onPause()
     }
     /*fun onStartClick(view: View) {
-        val textReceived = distance_input.text.toString().toInt()
+        val textReceived = input.text.toString().toInt()
         distanceToRun.add(textReceived)
         adapter?.notifyDataSetChanged()
         startSpeedometerService(textReceived)
@@ -110,14 +125,27 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_home -> Toast.makeText(this, "home button selected", Toast.LENGTH_SHORT).show()
-            R.id.nav_speed -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_home -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_speed ->  supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
+            .commit()
             R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
-            R.id.nav_settings -> Toast.makeText(this, "settings button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_settings -> supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_settings, settingsFragment, settingsTag)
+                .commit()
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onFragmentInteraction(someNumber: Int) {
+        msgFromSettingsFrag = someNumber
+        Toast.makeText(this, someNumber.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onFragmentInteraction2(someNumber: Int) {
+        msgFromTimeTracker = someNumber
+        Toast.makeText(this, "Timer Tracker Fragment data", Toast.LENGTH_SHORT).show()
+    }
 
 
 }

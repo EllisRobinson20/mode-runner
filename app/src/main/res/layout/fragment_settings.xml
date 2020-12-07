@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentSettings"
+    android:background="@color/colorPrimary">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/colorOnSurface"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="02dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/colorBlackGlass"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="03dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/materialCardView"
+        app:strokeColor="@color/colorBase">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <TableRow android:padding="8dp">
+
+                <TextView
+                    android:background="@color/colorBlackGlass"
+                    android:padding="8dp"
+                    android:paddingLeft="5dp"
+                    android:text="Distance:"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+
+                <EditText
+                    android:id="@+id/distance_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6" />
+
+                <TextView
+                    android:layout_marginLeft="-20dp"
+                    android:paddingLeft="5dp"
+                    android:scaleX=".8"
+                    android:scaleY=".8"
+                    android:text="@string/metre"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+            </TableRow>
+
+            <TableRow>
+
+            </TableRow>
+
+            <TableRow>
+
+            </TableRow>
+
+            <TableRow>
+
+            </TableRow>
+        </TableLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/user_input_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/colorBlackGlass"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="03dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/colorBase">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <TableRow android:padding="8dp">
+
+                <TextView
+                    android:background="@color/colorBlackGlass"
+                    android:padding="8dp"
+                    android:paddingLeft="5dp"
+                    android:text="Height:"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+
+                <EditText
+                    android:id="@+id/height_input_cm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:ems="6" />
+
+                <TextView
+                    android:layout_marginLeft="-20dp"
+                    android:paddingLeft="5dp"
+                    android:scaleX=".8"
+                    android:scaleY=".8"
+                    android:text="@string/centimetre"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+            </TableRow>
+
+            <TableRow android:padding="8dp">
+
+                <TextView
+                    android:background="@color/colorBlackGlass"
+                    android:padding="8dp"
+                    android:paddingLeft="5dp"
+                    android:text="Weight:"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+
+                <EditText
+                    android:id="@+id/weight_input_kg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6" />
+
+                <TextView
+                    android:layout_marginLeft="-20dp"
+                    android:paddingLeft="5dp"
+                    android:scaleX=".8"
+                    android:scaleY=".8"
+                    android:text="@string/kilogram"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+            </TableRow>
+
+            <TableRow android:padding="8dp">
+
+                <TextView
+                    android:background="@color/colorBlackGlass"
+                    android:padding="8dp"
+                    android:paddingLeft="5dp"
+                    android:text="Waist:"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+
+                <EditText
+                    android:id="@+id/waist_cm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6" />
+
+                <TextView
+                    android:layout_marginLeft="-20dp"
+                    android:paddingLeft="5dp"
+                    android:scaleX=".8"
+                    android:scaleY=".8"
+                    android:text="@string/centimetre"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="15sp"></TextView>
+            </TableRow>
+
+            <TableRow>
+
+            </TableRow>
+        </TableLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
