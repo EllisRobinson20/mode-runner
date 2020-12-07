@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
@@ -13,6 +15,8 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_speedometer.*
+import kotlinx.android.synthetic.main.activity_speedometer.bottom_app_nav
+import kotlinx.android.synthetic.main.fragment_time_tracker.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -37,27 +41,37 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 .add(R.id.time_tracker,timeTrackerFragment, "Time Tracking Fragment")
                 .commit()
         }
+
+        bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.nav_home -> Toast.makeText(this, "home button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_speed -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_settings -> Toast.makeText(this, "settings button selected", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
     override fun onPause() {
         Log.i(Tag, "onPause")
         super.onPause()
     }
-    fun onStartClick(view: View) {
+    /*fun onStartClick(view: View) {
         val textReceived = distance_input.text.toString().toInt()
         distanceToRun.add(textReceived)
         adapter?.notifyDataSetChanged()
         startSpeedometerService(textReceived)
-    }
+    }*/
     private fun loadListView() {
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, distanceToRun)
         listView?.adapter = adapter
     }
-    fun startSpeedometerService(text:Int) {
+    /*fun startSpeedometerService(text:Int) {
         Log.i("App", "startSpeedometerMode")
         val intent = Intent(this, SpeedometerService::class.java)
         intent.putExtra(Tag,text)
         startService(intent)
-    }
+    }*/
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -86,6 +100,11 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
 
     }
     override fun onRationaleAccepted(requestCode: Int) {
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bottom_nav_menu,menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

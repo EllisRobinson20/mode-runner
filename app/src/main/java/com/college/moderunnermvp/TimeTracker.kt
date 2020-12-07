@@ -1,13 +1,16 @@
 package com.college.moderunnermvp
 
+import android.content.Intent
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,33 +38,24 @@ class TimeTracker : Fragment() {
             param2 = it.getString(ARG_PARAM2)
 
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         Log.i("tag", "onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_time_tracker, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        radio_group.setOnCheckedChangeListener { group, checkedId ->
-            if (checkedId == R.id.one)
-                Log.i("tag", "one")
-            if (checkedId == R.id.two)
-                Log.i("tag", "two")
+        startButton.setOnClickListener { view ->
+            startSpeedometerService()
+            Toast.makeText(activity, view.id, Toast.LENGTH_SHORT ).show()
+            Log.i("tag","onViewCreated fires")
         }
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        Log.i("tag","onOptions Firing")
-        inflater.inflate(R.menu.bottom_nav_menu,menu)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {
@@ -82,5 +76,15 @@ class TimeTracker : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+
+
+    fun startSpeedometerService() {
+        Log.i("App", "startSpeedometerMode")
+        val intent = Intent(activity, SpeedometerService::class.java)
+        activity?.startService(intent)
+        //intent.putExtra(Tag,text)
+
     }
 }

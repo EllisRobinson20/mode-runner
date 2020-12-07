@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".Speedometer">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
         android:id="@+id/time_tracker"/>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="102dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="32dp"
-        android:onClick="onStartClick"
-        android:text="@string/start"
-        app:layout_constraintBottom_toTopOf="@+id/time_tracker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/distance_output" />
-
 
     <EditText
         android:id="@+id/distance_input"
@@ -42,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/time_tracker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
     <ListView
         android:id="@+id/main_listview"
@@ -54,4 +38,17 @@
         app:layout_constraintTop_toBottomOf="@+id/distance_input"
         tools:layout_editor_absoluteX="0dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_app_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlackGlass"
+        app:itemRippleColor="@color/colorAccent"
+        app:elevation="02dp"
+        app:itemTextColor="@drawable/text_color"
+        app:layout_constraintBottom_toTopOf="@+id/time_tracker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>
