@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -87,7 +88,16 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     override fun onRationaleAccepted(requestCode: Int) {
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
+        when (item.itemId) {
+            R.id.nav_home -> Toast.makeText(this, "home button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_speed -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_settings -> Toast.makeText(this, "settings button selected", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 

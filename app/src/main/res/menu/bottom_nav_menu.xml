@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/nav_home"
+        android:title="@string/text_menu_home"
+        app:showAsAction="always"/>
+    <item android:id="@+id/nav_speed"
+        android:title="@string/txt_menu_speed"
+        app:showAsAction="always"/>
+    <item android:id="@+id/nav_heart"
+    android:title="@string/txt_menu_heart"
+    app:showAsAction="always"/>
+    <item android:id="@+id/nav_settings"
+        android:title="@string/txt_menu_settings"
+        app:showAsAction="always"/>
+
+</menu>

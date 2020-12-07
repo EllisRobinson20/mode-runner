@@ -247,44 +247,64 @@
         </TableLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/colorBase">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:elevation="24dp"
+                    android:text="Speedometer"
+                    android:textColor="@drawable/text_color"
+                    android:padding="20dp"
+                    android:textAlignment="center"
+                     />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:elevation="24dp"
+                    android:text="Settings"
+                    android:textColor="@drawable/text_color"
+                    android:textAlignment="center"/>
+
+            </RadioGroup>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="500dp"
-        >
-
-        <RadioGroup
-            android:layout_width="wrap_content"
+        android:layout_marginTop="500dp">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/radio_group">
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+            android:id="@+id/bottom_app_nav"
+            android:background="@color/colorBlackGlass"
+            android:textColor="@drawable/text_color"
+            app:menu="@menu/bottom_nav_menu"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                android:id="@+id/one"/>
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-
-                android:id="@+id/two"/>
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-
-                android:id="@+id/three"/>
-
-            <RadioButton
-                android:id="@+id/four"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                 />
-        </RadioGroup>
-
-    </LinearLayout>
 </FrameLayout>

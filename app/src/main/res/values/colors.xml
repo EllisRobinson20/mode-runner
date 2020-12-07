@@ -16,6 +16,7 @@
     <color name="colorOnSurfaceHeavy">#66FFFFFF</color>
     <color name="colorError"></color>
     <color name="colorOnError"></color>
-
+    <color name="colorAccent">#bd87fe</color>
+    <color name="colorButton">#010101</color>
     <color name="colorBlackGlass">#16121212</color>
 </resources>

@@ -3,10 +3,8 @@ package com.college.moderunnermvp
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -44,11 +42,9 @@ class TimeTracker : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         Log.i("tag", "onCreateView")
         // Inflate the layout for this fragment
-
-
-
         return inflater.inflate(R.layout.fragment_time_tracker, container, false)
     }
 
@@ -58,12 +54,14 @@ class TimeTracker : Fragment() {
                 Log.i("tag", "one")
             if (checkedId == R.id.two)
                 Log.i("tag", "two")
-            if (checkedId == R.id.three)
-                Log.i("tag", "three")
-            if (checkedId == R.id.four)
-                Log.i("tag", "four")
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Log.i("tag","onOptions Firing")
+        inflater.inflate(R.menu.bottom_nav_menu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {
