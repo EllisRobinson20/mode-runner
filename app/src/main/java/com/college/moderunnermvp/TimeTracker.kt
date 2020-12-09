@@ -33,7 +33,6 @@ class TimeTracker : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_time_tracker, container, false)
-        val testResult: TextView = view.findViewById(R.id.test_tt)
         Log.i("tag", "onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_time_tracker, container, false)
@@ -50,8 +49,6 @@ class TimeTracker : Fragment() {
     override fun onStart() {
         super.onStart()
         if (model.SettingsFragmentMsg != null)  {
-
-            test_tt.text = model.SettingsFragmentMsg
             txt_distance_remaining.text = model.SettingsFragmentMsg
         }
     }
@@ -59,11 +56,11 @@ class TimeTracker : Fragment() {
     fun startSpeedometerService() {
         Log.i("App", "startSpeedometerMode")
         val intent = Intent(activity, SpeedometerService::class.java)
-        val textReceived = distance_input.text.toString().toInt()
-        if (distance_input != null || distance_input.inputType.equals(Int)) {
+        val textReceived = txt_distance_remaining.text.toString()
+        if (txt_distance_remaining != null || txt_distance_remaining.inputType.equals(Int)) {
 
             intent.putExtra("DistanceToRun",textReceived)
-            Toast.makeText(activity, textReceived, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "variable to add to service: $textReceived", Toast.LENGTH_SHORT).show()
             Log.i("speedometerService", "startSpeedometer service working "+ textReceived)
         }
         activity?.startService(intent)

@@ -17,11 +17,9 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class FragmentSettings : Fragment() {
-
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(activity as FragmentActivity).get(SharedMessage::class.java)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +38,5 @@ class FragmentSettings : Fragment() {
                 }
             })
         return view
-    }
-    interface OnFragmentInteractionListener{
-        fun onFragmentInteraction(distance_string: String)
     }
 }

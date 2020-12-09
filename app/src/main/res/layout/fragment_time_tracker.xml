@@ -256,11 +256,4 @@
         android:text="@string/start"
         android:textColor="@color/colorAccent" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/test_tt"
-        android:layout_marginTop="20dp"
-        android:text=""
-        android:elevation="24dp"/>
 </FrameLayout>
