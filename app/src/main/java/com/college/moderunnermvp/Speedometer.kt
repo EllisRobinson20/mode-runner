@@ -22,31 +22,23 @@ import pub.devrel.easypermissions.EasyPermissions
 
 
 class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
-    EasyPermissions.RationaleCallbacks, FragmentSettings.OnFragmentInteractionListener, TimeTracker.OnFragmentInteractionListener2 {
-    var distanceToRun: ArrayList<Int> = ArrayList()
-    var listView: ListView? = null
-    var adapter: ArrayAdapter<Int>? = null
-    var Tag: String = "DistanceToRun"
+    EasyPermissions.RationaleCallbacks {
+
+
+    var Tag: String = "Speedometer Activity"
 
     var timeTrackerFragment: TimeTracker = TimeTracker()
     var settingsFragment: FragmentSettings = FragmentSettings()
     var timeTrackerTag: String = "time_tracker_tag"
     var settingsTag: String = "settings_tag"
-    var msgFromSettingsFrag : Int? = null
-    var msgFromTimeTracker : Int? = null
+    var msgFromSettingsFrag : String? = null
+    var msgFromTimeTracker : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
-        listView = findViewById(R.id.main_listview)
-        loadListView()
 
-        /*if (savedInstanceState==null){
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.time_tracker,timeTrackerFragment, timeTrackerTag)
-                .commit()
-        }*/
-
+        //Bottom navigation listeners
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.nav_home -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
@@ -66,27 +58,10 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             }
         }
     }
-
     override fun onPause() {
         Log.i(Tag, "onPause")
         super.onPause()
     }
-    /*fun onStartClick(view: View) {
-        val textReceived = input.text.toString().toInt()
-        distanceToRun.add(textReceived)
-        adapter?.notifyDataSetChanged()
-        startSpeedometerService(textReceived)
-    }*/
-    private fun loadListView() {
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, distanceToRun)
-        listView?.adapter = adapter
-    }
-    /*fun startSpeedometerService(text:Int) {
-        Log.i("App", "startSpeedometerMode")
-        val intent = Intent(this, SpeedometerService::class.java)
-        intent.putExtra(Tag,text)
-        startService(intent)
-    }*/
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -136,16 +111,5 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         }
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onFragmentInteraction(someNumber: Int) {
-        msgFromSettingsFrag = someNumber
-        Toast.makeText(this, someNumber.toString(), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onFragmentInteraction2(someNumber: Int) {
-        msgFromTimeTracker = someNumber
-        Toast.makeText(this, "Timer Tracker Fragment data", Toast.LENGTH_SHORT).show()
-    }
-
 
 }
