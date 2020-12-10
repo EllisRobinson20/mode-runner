@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlackGlass"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Wait!"
+        android:textColor="@color/distance_input_failure"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't forget to add a distance first"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        android:text="OK"
+        android:textColor="@color/distance_input_failure"
+        android:textSize="18sp"
+        />
+
+</LinearLayout>

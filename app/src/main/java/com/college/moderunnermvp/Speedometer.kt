@@ -29,8 +29,10 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
 
     var timeTrackerFragment: TimeTracker = TimeTracker()
     var settingsFragment: FragmentSettings = FragmentSettings()
+    var homeFragment: FragmentHome = FragmentHome()
     var timeTrackerTag: String = "time_tracker_tag"
     var settingsTag: String = "settings_tag"
+    var homeTag: String = "home_tag"
     var msgFromSettingsFrag : String? = null
     var msgFromTimeTracker : String? = null
 
@@ -41,7 +43,10 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         //Bottom navigation listeners
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.nav_home -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_home -> supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_settings, homeFragment, homeTag)
+                    .addToBackStack(null)
+                    .commit()
                 R.id.nav_speed -> {
                    // timeTrackerFragment = TimeTracker.newInstance(msgFromSettingsFrag.toString(),"")
                     supportFragmentManager.beginTransaction()
@@ -100,7 +105,10 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_home -> Toast.makeText(this, "speed button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_home -> supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_settings, homeFragment, homeTag)
+                .addToBackStack(null)
+                .commit()
             R.id.nav_speed ->  supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
             .commit()

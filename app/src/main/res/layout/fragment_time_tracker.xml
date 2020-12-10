@@ -244,7 +244,8 @@
         </TableLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -254,6 +255,8 @@
         android:layout_marginBottom="32dp"
         android:background="@color/colorAccent"
         android:text="@string/start"
-        android:textColor="@color/colorAccent" />
+        android:padding="5dp"
+        android:textColor="@color/colorAccent"
+        />
 
 </FrameLayout>
