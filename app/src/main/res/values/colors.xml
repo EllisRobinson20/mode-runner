@@ -19,4 +19,5 @@
     <color name="colorAccent">#bd87fe</color>
     <color name="colorButton">#010101</color>
     <color name="colorBlackGlass">#16121212</color>
+    <color name="distance_input_failure">#B00020</color>
 </resources>

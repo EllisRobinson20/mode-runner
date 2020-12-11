@@ -12,45 +12,62 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBlackGlass"
-        app:cardElevation="2dp"
-        app:cardCornerRadius="2dp"/>
+        android:layout_height="200dp"
+        android:background="@color/colorPrimaryDark"
+        app:cardCornerRadius="15dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_view_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Wait!"
-        android:textColor="@color/distance_input_failure"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="10dp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginStart="323dp"
+                android:layout_marginEnd="323dp"
+                android:layout_marginBottom="31dp"
+                android:text="Wait!"
+                android:textColor="@color/colorAccent"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_view_two"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_view_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Don't forget to add a distance first"
-        android:textColor="@color/colorPrimary"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="75dp"
+                android:layout_marginEnd="28dp"
+                android:text="Don't forget to add a distance first"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="136dp"
+                android:background="@color/colorButton"
+                android:text="OK"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="16dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-        android:text="OK"
-        android:textColor="@color/distance_input_failure"
-        android:textSize="18sp"
-        />
 
 </LinearLayout>

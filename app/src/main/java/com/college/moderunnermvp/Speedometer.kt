@@ -53,7 +53,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
                         .addToBackStack(null)
                 .commit() }
-                R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
+                R.id.nav_heart -> Toast.makeText(this, "not available in prototype", Toast.LENGTH_SHORT).show()
                 R.id.nav_settings ->{
                    // settingsFragment = FragmentSettings.newInstance(msgFromTimeTracker.toString(), "")
                     supportFragmentManager.beginTransaction()
@@ -112,7 +112,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             R.id.nav_speed ->  supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
             .commit()
-            R.id.nav_heart -> Toast.makeText(this, "heart button selected", Toast.LENGTH_SHORT).show()
+            R.id.nav_heart -> Toast.makeText(this, "not available in prototype", Toast.LENGTH_SHORT).show()
             R.id.nav_settings -> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_settings, settingsFragment, settingsTag)
                 .commit()
