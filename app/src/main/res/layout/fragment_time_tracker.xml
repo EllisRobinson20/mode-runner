@@ -271,5 +271,21 @@
         android:textColor="@color/colorAccent"
         app:rippleColor="@color/colorAccent"
         />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="502dp"
+        android:layout_marginLeft="275dp"
+        app:icon="@drawable/ic_baseline_reset"
+        app:iconTint="@color/colorAccent"
+        app:iconTintMode="multiply"
+        app:iconPadding="0dp"
+        app:iconSize="@android:dimen/app_icon_size"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"
+        app:rippleColor="@color/colorBlackGlass"
+        />
+
 
 </FrameLayout>

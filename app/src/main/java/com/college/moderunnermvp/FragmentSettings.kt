@@ -29,7 +29,7 @@ class FragmentSettings : Fragment() {
             distanceInput.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                    model.SettingsFragmentMsg = s.toString()
-                    Toast.makeText(activity, model.SettingsFragmentMsg, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity, model.SettingsFragmentMsg, Toast.LENGTH_SHORT).show()
                 }
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 }
