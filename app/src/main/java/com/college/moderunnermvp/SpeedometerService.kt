@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
@@ -28,11 +29,14 @@ class SpeedometerService : IntentService("Speedometer Service")
     //var Tag: String = "DistanceToRun"
     val PERMISSION_ID = 42
 
+    var targetDistance: Int = 0
+    var topSpeed: Double = 0.00
     var distances: Vector<Float> = Vector(1,1)
     var locations: Vector<Location> = Vector(1,1)
     var speeds: Vector<Float> = Vector(1, 1)
     var times: Vector<Long> = Vector(1,1)
     var distanceTotal: Double = 0.00
+    var distanceRemaining: Double = 0.00
 
     var result: ArrayList<Float> = ArrayList(0)
     var result_to__add = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f) // distance , time , speed , acceleration , total distance covered
@@ -53,12 +57,26 @@ class SpeedometerService : IntentService("Speedometer Service")
         }
     }
 
-    override fun onHandleIntent(intent: Intent?) {
+    override fun onCreate() {
+        Log.i(Tag, "onCreate")
+        super.onCreate()
+        locations.add(0, Location("location $globalCounter"))
+        if (times.size == 0) // add this to prevent an indexing error on first array update
+            times.add(System.nanoTime())
+    }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.i(Tag, "onStartCommand")
+
+        targetDistance = intent?.getStringExtra("DistanceToRun")?.toInt()!!
+        Log.i(Tag, "Target distance is: $targetDistance")
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onHandleIntent(intent: Intent?) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askForLocalPosition()
         createLocationRequest()
-
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult ?: return
@@ -87,18 +105,34 @@ class SpeedometerService : IntentService("Speedometer Service")
 
     private fun updateSession(intent: Intent?, result: LocationResult) {
         globalCounter++
+        times.add(System.nanoTime())
         updateLocation(result)
         updateDistance(result)
-        updateSpeed(result)
+        var currentDuration = updateDuration(result) //instead of: times.lastElement() - times[times.size-2]
+        var sample = GpsSample(distances.lastElement(), currentDuration, topSpeed, targetDistance, distanceTotal)
+        var isFaster = sample.isFaster()
+        var distanceRemaining = sample.distanceRemaining()
+        Log.i("SAMPLE CLASS RESULTS","this is faster = $isFaster AND top speed = $topSpeed")
+        if (isFaster)
+            topSpeed = sample.speedFrame
+        this.distanceRemaining = distanceRemaining
+        distanceTotal = distances.sum().toDouble()
+        Log.i("SAMPLE CLASS RESULTS","top speed is $topSpeed AND distance remaining = $distanceRemaining AND then theres distance total $distanceTotal")
         //var current: Float = result.lastLocation.distanceTo(location)
+        sendToActivity(sample, "GpsSample: ")
     }
 
-    private fun updateSpeed(result: LocationResult) {
+    private fun updateDuration(result: LocationResult): Double {
         /*var speed = result.lastLocation.speed
         speeds.add(speed)*/
-        times.add(System.currentTimeMillis())
+        var current_time_sample = times.lastElement()
+        var previous_time_sample = times[times.size-2]
+        var sample_difference = current_time_sample - previous_time_sample
+            //System.currentTimeMillis()
+        //times.add(time_sample)
+        return sample_difference/1e9
 
-        Log.i(Tag, "Times: +"+ times)
+        Log.i(Tag, "Time sampled in updateDuration: +"+ sample_difference/1e9)
 
     }
 
@@ -112,7 +146,7 @@ class SpeedometerService : IntentService("Speedometer Service")
         if(distance< 10000)
             distances.add(distance)
         else
-            distances.add(0.0f)
+            distances.add(0.0f)//ignore errorsome behavior using emulator
 
         distanceTotal += distances.lastElement()
 
@@ -122,7 +156,7 @@ class SpeedometerService : IntentService("Speedometer Service")
         Log.i(Tag, "DISTANCE" +result_to__add[0])
         Log.i(Tag, "TOTALDISTANCE" +result_to__add[4])
         Log.i(Tag, "DISTANCE ARRAY " +distances)
-        //Log.i(Tag, "DISTANCE TOTAL " +distanceTotal)
+        Log.i(Tag, "DISTANCE TOTAL " +distanceTotal)
     }
 
     private fun updateLocation(result: LocationResult) {
@@ -137,17 +171,16 @@ class SpeedometerService : IntentService("Speedometer Service")
         Log.i(Tag, "location calculation result : $location")
     }
 
-    override fun onCreate() {
-        Log.i(Tag, "onCreate")
-        super.onCreate()
-        locations.add(0, Location("location $globalCounter"))
+    private fun sendToActivity(gpsObject: GpsSample, statusMessage: String) {
+        var intent: Intent = Intent("GPSUpdate")
+        intent.putExtra("Status", statusMessage+globalCounter)
+        intent.putExtra("TopSpeed", topSpeed.toString())//top speed is updated outside of the gpsObject
+        var bundle = Bundle()
+        bundle.putParcelable("LocationData", gpsObject)
+        intent.putExtra("Location", bundle)
+        LocalBroadcastManager.getInstance(this ).sendBroadcast(intent)
     }
 
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(Tag, "onStartCommand")
-        return super.onStartCommand(intent, flags, startId)
-    }
 
     override fun onDestroy() {
         Log.i(Tag, "onDestroy")
