@@ -15,6 +15,6 @@ class SharedMessage : ViewModel() {
     }
 
     inner class UIModel{
-
+//to share data around the app
     }
 }

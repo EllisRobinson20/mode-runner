@@ -14,6 +14,7 @@ import android.widget.ListView
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.activity_speedometer.bottom_app_nav
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
@@ -39,6 +40,21 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
+
+        /*tab_layout.addTab(tab_layout.newTab().setText("New Run"))
+        tab_layout.addTab(tab_layout.newTab().setText("History"))
+        tab_layout.addTab(tab_layout.newTab().setText("Best Runs"))
+        tab_layout.tabGravity = TabLayout.GRAVITY_FILL
+        val adapter: FragmentAdapter = FragmentAdapter(this, supportFragmentManager)
+        tab_layout.tabCount
+        view_pager.adapter = adapter
+        view_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+        tab_layout.addOnTabSelectedListener(TabLayout.OnTabSelectedListener)*/
+
+        val adapter = FragmentAdapter(supportFragmentManager)
+        view_pager.adapter = adapter
+        tab_layout.setupWithViewPager(view_pager)
+
 
         //Bottom navigation listeners
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->

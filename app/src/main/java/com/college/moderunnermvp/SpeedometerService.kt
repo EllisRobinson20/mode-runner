@@ -97,7 +97,7 @@ class SpeedometerService : IntentService("Speedometer Service")
 
         startLocationUpdates()
 
-        ////ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        //ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
 
 
         /*Log.i(Tag, "onHandleWork")
@@ -129,13 +129,12 @@ class SpeedometerService : IntentService("Speedometer Service")
     }
 
     private fun updateDuration(result: LocationResult): Double {
-        /*var speed = result.lastLocation.speed
-        speeds.add(speed)*/
+
         var current_time_sample = times.lastElement()
         var previous_time_sample = times[times.size-2]
         var sample_difference = current_time_sample - previous_time_sample
             //System.currentTimeMillis()
-        //times.add(time_sample)
+        //times.add(time_sample) now done in update session straight away
         return sample_difference/1e9
 
         //Log.i(Tag, "Time sampled in updateDuration: +"+ sample_difference/1e9)
@@ -258,7 +257,7 @@ class SpeedometerService : IntentService("Speedometer Service")
                 "need permissions to find your location and calculate the speed",
                 LOCATION_PERMISSION_CODE,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            )*/
+            )*/ // could send request to activity and then paste this cod in there instead???
 
         }
     }

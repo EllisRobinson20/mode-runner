@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -145,7 +146,7 @@
             style="@style/OverlayText"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:layout_width="850px"
         android:layout_height="100dp"
         android:layout_marginTop="350dp"
         app:cardBackgroundColor="@color/colorBlackGlass"
@@ -288,4 +289,4 @@
         />
 
 
-</FrameLayout>
+</RelativeLayout>
