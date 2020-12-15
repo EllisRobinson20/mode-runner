@@ -13,10 +13,13 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.activity_speedometer.bottom_app_nav
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -34,50 +37,57 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     var timeTrackerTag: String = "time_tracker_tag"
     var settingsTag: String = "settings_tag"
     var homeTag: String = "home_tag"
-    var msgFromSettingsFrag : String? = null
-    var msgFromTimeTracker : String? = null
+    //var msgFromSettingsFrag : String? = null // dont use these as the view model takes care of sharing state and data
+    //var msgFromTimeTracker : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
 
-        /*tab_layout.addTab(tab_layout.newTab().setText("New Run"))
-        tab_layout.addTab(tab_layout.newTab().setText("History"))
-        tab_layout.addTab(tab_layout.newTab().setText("Best Runs"))
-        tab_layout.tabGravity = TabLayout.GRAVITY_FILL
-        val adapter: FragmentAdapter = FragmentAdapter(this, supportFragmentManager)
-        tab_layout.tabCount
-        view_pager.adapter = adapter
-        view_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
-        tab_layout.addOnTabSelectedListener(TabLayout.OnTabSelectedListener)*/
 
-        val adapter = FragmentAdapter(supportFragmentManager)
-        view_pager.adapter = adapter
-        tab_layout.setupWithViewPager(view_pager)
 
 
         //Bottom navigation listeners
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.nav_home -> supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_settings, homeFragment, homeTag)
-                    .addToBackStack(null)
-                    .commit()
+                R.id.nav_home -> {
+                    tab_layout.visibility = View.VISIBLE
+
+                    supportFragmentManager.beginTransaction().remove(settingsFragment).commit()
+                    supportFragmentManager.beginTransaction().remove(timeTrackerFragment).commit()
+                    //supportFragmentManager.popBackStackImmediate() this only goe back one. this is for bk button
+                    val adapter = FragmentAdapter(supportFragmentManager)
+                    var view_pager = this.findViewById<ViewPager>(R.id.view_pager)
+                    view_pager?.adapter = adapter
+
+                    tab_layout.setupWithViewPager(view_pager)
+                }
                 R.id.nav_speed -> {
-                   // timeTrackerFragment = TimeTracker.newInstance(msgFromSettingsFrag.toString(),"")
+                    tab_layout.visibility = View.INVISIBLE
                     supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
                         .addToBackStack(null)
-                .commit() }
+                .commit()
+                }
                 R.id.nav_heart -> Toast.makeText(this, "not available in prototype", Toast.LENGTH_SHORT).show()
                 R.id.nav_settings ->{
-                   // settingsFragment = FragmentSettings.newInstance(msgFromTimeTracker.toString(), "")
+                    tab_layout.visibility = View.INVISIBLE
                     supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_settings, settingsFragment, settingsTag)
                     .addToBackStack(null)
                     .commit() }
             }
         }
+    }
+
+    override fun onResume() {
+        Log.i(Tag, "onResume")
+        super.onResume()
+    }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        Log.i(Tag, "Fragment attached: $fragment")
+        super.onAttachFragment(fragment)
     }
     override fun onPause() {
         Log.i(Tag, "onPause")
@@ -113,8 +123,8 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     override fun onRationaleAccepted(requestCode: Int) {
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottom_nav_menu,menu)
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bottom_nav_menu,menu) ////// ADD AN OPTIONS MENU HERE
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -132,8 +142,8 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             R.id.nav_settings -> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_settings, settingsFragment, settingsTag)
                 .commit()
-        }
+        } // in here add share , save, share or other buttons
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
 }

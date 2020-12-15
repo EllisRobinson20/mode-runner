@@ -7,7 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 
@@ -30,6 +34,7 @@ class FragmentHome : Fragment() {
     private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -45,10 +50,17 @@ class FragmentHome : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
     override fun onStart() {
+
         super.onStart()
         if (model.SettingsFragmentMsg != null || model.SettingsFragmentMsg != "")  {
             target_set.text = model.SettingsFragmentMsg
         }
+    }
+
+    override fun onResume() {
+
+
+        super.onResume()
     }
 
     companion object {

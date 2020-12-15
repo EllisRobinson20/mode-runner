@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".FragmentRunningHistory">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/line_chart"
+        android:layout_marginTop="50dp"
+        >
+
+    </com.github.mikephil.charting.charts.LineChart>
+
 
 </FrameLayout>
