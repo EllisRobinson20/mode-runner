@@ -46,7 +46,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
 
 
 
-
+        showHomePage()
         //Bottom navigation listeners
         bottom_app_nav.setOnNavigationItemReselectedListener { item: MenuItem ->
             when (item.itemId) {
@@ -56,11 +56,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                     supportFragmentManager.beginTransaction().remove(settingsFragment).commit()
                     supportFragmentManager.beginTransaction().remove(timeTrackerFragment).commit()
                     //supportFragmentManager.popBackStackImmediate() this only goe back one. this is for bk button
-                    val adapter = FragmentAdapter(supportFragmentManager)
-                    var view_pager = this.findViewById<ViewPager>(R.id.view_pager)
-                    view_pager?.adapter = adapter
-
-                    tab_layout.setupWithViewPager(view_pager)
+                    showHomePage()
                 }
                 R.id.nav_speed -> {
                     tab_layout.visibility = View.INVISIBLE
@@ -146,4 +142,11 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         return super.onOptionsItemSelected(item)
     }*/
 
+    private fun showHomePage() {
+        val adapter = FragmentAdapter(supportFragmentManager)
+        var view_pager = this.findViewById<ViewPager>(R.id.view_pager)
+        view_pager?.adapter = adapter
+
+        tab_layout.setupWithViewPager(view_pager)
+    }
 }
