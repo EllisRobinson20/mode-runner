@@ -5,24 +5,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.nfc.Tag
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.*
-import androidx.core.view.marginTop
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.activity_speedometer.*
-
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -110,6 +107,31 @@ class TimeTracker : Fragment(), View.OnClickListener {
             txt_distance_remaining.text = model.SettingsFragmentMsg
     }
     override fun onResume() {
+        if (!model.SpeedometerFragmentModel.isEmpty()) {
+            numbers_acceleration.text =
+                numberFormat.format(model.SpeedometerFragmentModel.lastElement().accelerationFrame)
+            top_speed.text =
+                numberFormat.format(model.SpeedometerFragmentModel.lastElement().topSpeed)
+            numbers_speed.text =
+                numberFormat.format(model.SpeedometerFragmentModel.lastElement().speedFrame)
+            txt_distance_remaining.text = numberFormat.format(
+                model.SpeedometerFragmentModel.lastElement().distanceRemaining()
+            )
+            txt_distance_covered.text =
+                numberFormat.format(model.SpeedometerFragmentModel.lastElement().totalDistance)
+            var elapsedTime: Double = getElapsedTime()
+            chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
+        }
+        /*if (!model.SpeedometerFragmentModel.isEmpty()) {
+            txt_distance_covered.text = model.SpeedometerFragmentModel.lastElement().totalDistance.toString()
+            txt_distance_remaining.text = model.SpeedometerFragmentModel.lastElement().distanceRemaining().toString()
+            //Average here speed when calculated
+            var elapsedTime : Long = 0
+            for ((c) in (0..model.SpeedometerFragmentModel.size).withIndex()) {
+                elapsedTime += model.SpeedometerFragmentModel.elementAt(c-1).timeFrame.toLong()
+            }
+            chronometer.base = elapsedTime
+        }*/ // attempt to solve view being destroyed and view not re assigneming
         super.onResume()
         var fadeIn: Animation = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
         prompter_label.startAnimation(fadeIn)
@@ -119,6 +141,17 @@ class TimeTracker : Fragment(), View.OnClickListener {
         } else
             prompter_label.text = "Ready!"
     }
+
+    private fun getElapsedTime(): Double {
+
+        var elapsedTime : Double = 0.00
+        for ((c) in (1..model.SpeedometerFragmentModel.size).withIndex()) {
+            elapsedTime += model.SpeedometerFragmentModel.elementAt(c).timeFrame
+            Log.i("ELAPSEDTIME TIMETRACKER", elapsedTime.toString())
+        }
+        return elapsedTime
+    }
+
     fun startSpeedometerService() {
         Log.i("App", "startSpeedometerMode")
         val intent = Intent(activity, SpeedometerService::class.java)
@@ -136,6 +169,13 @@ class TimeTracker : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
 
     }
+
+    /*private fun sendToActivity(stopRequest: String) {
+        var intent = Intent("STOP_REQUEST")
+        intent.putExtra("STOP_REQUEST", stopRequest)
+
+        LocalBroadcastManager.getInstance(this.activity!!.application).sendBroadcast(intent)
+    }*/
 
     private inner class messageReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -177,8 +217,16 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
         if (startButton.text == "Start" && serviceState == true)
         {
-            if (chronometer.timeElapsed > 1e-9)
+            if (chronometer.timeElapsed > 1e-9) {
+                chronometer.base = SystemClock.elapsedRealtime()
+
                 chronometer.start()
+                chronometer.base = SystemClock.elapsedRealtime() - (0*6000 + getElapsedTime().toLong()*1000)
+            }
+           /* var elapsedTime: Double = getElapsedTime()
+            chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
+                chronometer.base =*/
+
             else
                 timer.start()// start countdown in prompter then start the service
             startButton.text = "Stop"
@@ -206,6 +254,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
             chronometer.stop()
             startButton.text = "Start"
             Toast.makeText(activity, "Pausing ...", Toast.LENGTH_SHORT).show()
+            //sendToActivity("false")
         }
     }
     private fun startViewTimer() {

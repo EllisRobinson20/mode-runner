@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.activity_speedometer.bottom_app_nav
@@ -52,10 +53,9 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             when (item.itemId) {
                 R.id.nav_home -> {
                     tab_layout.visibility = View.VISIBLE
-
-                    supportFragmentManager.beginTransaction().remove(settingsFragment).commit()
-                    supportFragmentManager.beginTransaction().remove(timeTrackerFragment).commit()
-                    //supportFragmentManager.popBackStackImmediate() this only goe back one. this is for bk button
+                    var stackCount : Int = this.supportFragmentManager.backStackEntryCount
+                    for (i in 0..stackCount)
+                        supportFragmentManager.popBackStackImmediate()
                     showHomePage()
                 }
                 R.id.nav_speed -> {

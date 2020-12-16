@@ -2,6 +2,8 @@ package com.college.moderunnermvp
 
 import android.Manifest
 import android.app.IntentService
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -85,11 +87,13 @@ class SpeedometerService : IntentService("Speedometer Service")
                     //calulateSpeed(speedToDouble)
                     ///add the result to view component here
                     updateSession(intent, locationResult ,true)
-                    if (distances.size > 6) { //Stop the service if the user does not move locations for 10seconds
-                        var sublist = distances.subList(distances.size-6, distances.size)
-                        if (sublist.sum() == 0.0f)
-                           isDone = true
-                        updateSession(intent, locationResult, false)
+                    if (distances.size > 30) { //Stop the service if the user does not move locations for 10seconds
+                        var sublist = distances.subList(distances.size-15, distances.size)
+                        if (sublist.sum() == 0.0f) {
+                            //isDone = true
+                            updateSession(intent, locationResult, false)
+                        }
+
                     }
                 }
             }
@@ -126,6 +130,8 @@ class SpeedometerService : IntentService("Speedometer Service")
         //Log.i("SAMPLE CLASS RESULTS","top speed is $topSpeed AND distance remaining = $distanceRemaining AND then theres distance total $distanceTotal")
         //var current: Float = result.lastLocation.distanceTo(location)
         sendToActivity(sample, "GpsSample: ")
+        if (!serviceState)
+            isDone = true
     }
 
     private fun updateDuration(result: LocationResult): Double {
@@ -266,4 +272,14 @@ class SpeedometerService : IntentService("Speedometer Service")
         return EasyPermissions.hasPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
+    private inner class messageReceiver: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.i("SPEEDOMETER BRODCAST", "RECEIVED")
+            var stopRequest = intent?.getStringExtra("STOP_REQUEST")
+            stopRequest?.toBoolean()
+            if (!stopRequest?.toBoolean()!!)
+                isDone = true
+        }
+
+    }
 }
