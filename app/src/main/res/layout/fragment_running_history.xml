@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentRunningHistory">
 
-    <com.github.mikephil.charting.charts.LineChart
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/line_chart"
-        android:layout_marginTop="50dp"
-        >
+        android:layout_height="wrap_content">
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/line_chart"
+            android:layout_alignParentTop="true"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
 
-    </com.github.mikephil.charting.charts.LineChart>
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/line_chart_distance"
+
+            android:layout_below="@id/line_chart"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
+    </RelativeLayout>
 
 
-</FrameLayout>
+
+
+</ScrollView>

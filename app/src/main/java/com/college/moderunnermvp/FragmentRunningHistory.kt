@@ -50,9 +50,6 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
-
     }
 
     override fun onCreateView(
@@ -84,10 +81,55 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
     }
 
     override fun onResume() {
+        createLineChart(R.id.line_chart)
+        createLineChart(R.id.line_chart_distance)
+        super.onResume()
+    }
+    override fun onChartGestureEnd(
+        me: MotionEvent?,
+        lastPerformedGesture: ChartTouchListener.ChartGesture?
+    ) {
+    }
+
+    override fun onChartFling(
+        me1: MotionEvent?,
+        me2: MotionEvent?,
+        velocityX: Float,
+        velocityY: Float
+    ) {
+    }
+
+    override fun onChartSingleTapped(me: MotionEvent?) {
+    }
+
+    override fun onChartGestureStart(
+        me: MotionEvent?,
+        lastPerformedGesture: ChartTouchListener.ChartGesture?
+    ) {
+    }
+
+    override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+    }
+
+    override fun onChartLongPressed(me: MotionEvent?) {
+    }
+
+    override fun onChartDoubleTapped(me: MotionEvent?) {
+    }
+
+    override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+    }
+
+    override fun onNothingSelected() {
+    }
+
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+    }
+    private fun createLineChart(lineChart: Int) {
         var colorAccent = this.context?.let { ContextCompat.getColor(it, R.color.colorAccent) }
         var colorOnPrimary = this.context?.let {ContextCompat.getColor(it, R.color.colorOnPrimary)}
 
-        var line_chart =  activity?.findViewById<LineChart>(R.id.line_chart)
+        var line_chart =  activity?.findViewById<LineChart>(lineChart)
 
         line_chart?.onChartGestureListener = this
         line_chart?.setOnChartValueSelectedListener(this)
@@ -96,8 +138,7 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
         line_chart?.xAxis?.textColor = colorOnPrimary!!
         line_chart?.axisLeft?.textColor = colorOnPrimary
         line_chart?.axisRight?.textColor = colorOnPrimary
-
-
+        
 
         var colorBlackGlass = this.context?.let { ContextCompat.getColor(it, R.color.colorBlackGlass) }
         line_chart?.setBackgroundColor(colorBlackGlass!!)
@@ -144,46 +185,5 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
         Log.i("SETDATA", "${data.dataSets}")
         line_chart?.data = data
         Log.i("SETDATA", "${data.dataSets}")
-        super.onResume()
-    }
-    override fun onChartGestureEnd(
-        me: MotionEvent?,
-        lastPerformedGesture: ChartTouchListener.ChartGesture?
-    ) {
-    }
-
-    override fun onChartFling(
-        me1: MotionEvent?,
-        me2: MotionEvent?,
-        velocityX: Float,
-        velocityY: Float
-    ) {
-    }
-
-    override fun onChartSingleTapped(me: MotionEvent?) {
-    }
-
-    override fun onChartGestureStart(
-        me: MotionEvent?,
-        lastPerformedGesture: ChartTouchListener.ChartGesture?
-    ) {
-    }
-
-    override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-    }
-
-    override fun onChartLongPressed(me: MotionEvent?) {
-    }
-
-    override fun onChartDoubleTapped(me: MotionEvent?) {
-    }
-
-    override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
-    }
-
-    override fun onNothingSelected() {
-    }
-
-    override fun onValueSelected(e: Entry?, h: Highlight?) {
     }
 }
