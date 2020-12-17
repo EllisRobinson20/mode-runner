@@ -119,7 +119,7 @@ class SpeedometerService : IntentService("Speedometer Service")
         updateLocation(result)
         updateDistance(result)
         var currentDuration = updateDuration(result) //instead of: times.lastElement() - times[times.size-2]
-        var sample = GpsSample(distances.lastElement(), currentDuration, topSpeed, targetDistance, distanceTotal, serviceState)
+        var sample = GpsSample(distances.lastElement(), currentDuration.first(), currentDuration.last(), topSpeed, targetDistance, distanceTotal, serviceState)
         var isFaster = sample.isFaster()
         var distanceRemaining = sample.distanceRemaining()
         //Log.i("SAMPLE CLASS RESULTS","this is faster = $isFaster AND top speed = $topSpeed")
@@ -134,17 +134,26 @@ class SpeedometerService : IntentService("Speedometer Service")
             isDone = true
     }
 
-    private fun updateDuration(result: LocationResult): Double {
+    private fun updateDuration(result: LocationResult): DoubleArray {
 
+        //instantaneous
         var current_time_sample = times.lastElement()
         var previous_time_sample = times[times.size-2]
         var sample_difference = current_time_sample - previous_time_sample
             //System.currentTimeMillis()
         //times.add(time_sample) now done in update session straight away
-        return sample_difference/1e9
+
 
         //Log.i(Tag, "Time sampled in updateDuration: +"+ sample_difference/1e9)
 
+        //overall
+        var initial_time_sample = times.firstElement()
+        var overall_time_sample = current_time_sample - initial_time_sample
+
+        var array = DoubleArray(2)
+        array.set(0, sample_difference/1e9)
+        array.set(1, overall_time_sample/1e9)
+        return array
     }
 
     private fun updateDistance(result: LocationResult) {

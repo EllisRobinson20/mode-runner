@@ -119,6 +119,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
             )
             txt_distance_covered.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().totalDistance)
+            txt_average_speed.text = model.UIModel().averageSpeed().toString()
             var elapsedTime: Double = getElapsedTime()
             chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
         }
@@ -194,7 +195,8 @@ class TimeTracker : Fragment(), View.OnClickListener {
             numbers_speed.text = numberFormat.format(gpsSample?.speedFrame)
             txt_distance_remaining.text = numberFormat.format(gpsSample?.distanceRemaining())
             txt_distance_covered.text = numberFormat.format(gpsSample?.totalDistance)
-
+            if (model.SpeedometerFragmentModel.size>2)//view cannot run the operation without at least 2 sets of data
+                txt_average_speed.text = numberFormat.format(model.UIModel().averageSpeed())
             model.SpeedometerFragmentModel.add(gpsSample)
 
             var serviceUpdate: Boolean? = gpsSample?.serviceIsRunning

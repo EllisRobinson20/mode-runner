@@ -9,7 +9,7 @@ import java.text.DecimalFormat
 //The updateDuration in speedometer deals with converting time samples to seconds
 class GpsSample(
     var distanceFrame: Float,
-    var timeFrame: Double, val topSpeed: Double, val target: Int, val totalDistance: Double, val serviceIsRunning: Boolean):
+    var timeFrame: Double, val overallTime: Double, val topSpeed: Double, val target: Int, val totalDistance: Double, val serviceIsRunning: Boolean):
     Parcelable
 {
 
@@ -23,6 +23,7 @@ class GpsSample(
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readFloat(),
+        parcel.readDouble(),
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readInt(),
@@ -43,6 +44,7 @@ class GpsSample(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeFloat(distanceFrame)
         parcel.writeDouble(timeFrame)
+        parcel.writeDouble(overallTime)
         parcel.writeDouble(topSpeed)
         parcel.writeInt(target)
         parcel.writeDouble(totalDistance)
