@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GraphSummaryFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp">
+        <TextView
+            android:text="text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_chart_1"
+            android:textColor="@color/colorOnPrimary"
+            />
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/summary_chart"
+            android:layout_below="@id/title_chart_1"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
+
+        <TextView
+            android:text="text2"
+            android:textColor="@color/colorOnPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/summary_chart"
+            android:id="@+id/title_chart_2"
+            />
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/summary_chart_distance"
+            android:layout_below="@id/title_chart_2"
+            android:layout_marginBottom="30dp"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
+    </RelativeLayout>
+
+
+
+
+</ScrollView>

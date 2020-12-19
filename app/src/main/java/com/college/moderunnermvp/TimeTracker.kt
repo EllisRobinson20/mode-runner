@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
@@ -201,18 +202,25 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
             var serviceUpdate: Boolean? = gpsSample?.serviceIsRunning
             serviceState = serviceUpdate
-            if (serviceState == false)
-                stopStartButton()
+            if (serviceState == false||gpsSample!!.serviceComplete)
+                stopStartButton(gpsSample!!.serviceComplete)
             Log.i("MODELVIEW SIZE", model.SpeedometerFragmentModel.size.toString())
             Log.i("SERVICERUNNING BOOLEAN", gpsSample?.serviceIsRunning.toString())
         }
     }
 
-    private fun stopStartButton() {
+    private fun stopStartButton(isComplete:Boolean) {
         startButton.text = "Start"
         chronometer.stop()
         button_reset.visibility = View.VISIBLE
-        serviceStoppedDialog()
+        if (isComplete) {
+            showRunSummary()
+        }
+        else {
+            serviceStoppedDialog()
+        }
+
+
     }
 
     private fun toggleStartButton() {
@@ -273,5 +281,20 @@ class TimeTracker : Fragment(), View.OnClickListener {
         var   alertDialog = dialogBuilder.create()
         alertDialog.show()
         dialogButton.setOnClickListener(View.OnClickListener { alertDialog.dismiss() })
+    }
+    private fun showRunSummary()
+    {
+        // show a summary of run data
+
+
+
+        val fragmentSummary = FragmentSummary()
+        val fragmentManager = activity!!.supportFragmentManager
+        val fragmentTransaction =fragmentManager.beginTransaction()
+        //fragmentTransaction.remove(this)
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        fragmentTransaction.replace(R.id.fragment_summary, fragmentSummary)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

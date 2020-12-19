@@ -86,12 +86,15 @@ class SpeedometerService : IntentService("Speedometer Service")
                     // val speedToDouble = locationResult.lastLocation.speed.toDouble()
                     //calulateSpeed(speedToDouble)
                     ///add the result to view component here
-                    updateSession(intent, locationResult ,true)
+                    updateSession(intent, locationResult ,true, false)
+                    Log.i("TARGETDISTANCE", targetDistance.toDouble().toString())
+                    if (distanceTotal >= targetDistance.toDouble())//stop the run when the user reaches the target distance
+                        updateSession(intent, locationResult ,false, true)//isDone =true//done in updateSession()
                     if (distances.size > 30) { //Stop the service if the user does not move locations for 10seconds
                         var sublist = distances.subList(distances.size-15, distances.size)
                         if (sublist.sum() == 0.0f) {
-                            //isDone = true
-                            updateSession(intent, locationResult, false)
+                            //isDone = true updated in the updateSession()
+                            updateSession(intent, locationResult, false, false)
                         }
 
                     }
@@ -113,13 +116,13 @@ class SpeedometerService : IntentService("Speedometer Service")
 
     }
 
-    private fun updateSession(intent: Intent?, result: LocationResult, serviceState:Boolean) {
+    private fun updateSession(intent: Intent?, result: LocationResult, serviceState:Boolean, completedState: Boolean) {
         globalCounter++
         times.add(System.nanoTime())
         updateLocation(result)
         updateDistance(result)
         var currentDuration = updateDuration(result) //instead of: times.lastElement() - times[times.size-2]
-        var sample = GpsSample(distances.lastElement(), currentDuration.first(), currentDuration.last(), topSpeed, targetDistance, distanceTotal, serviceState)
+        var sample = GpsSample(distances.lastElement(), currentDuration.first(), currentDuration.last(), topSpeed, targetDistance, distanceTotal, serviceState, completedState)
         var isFaster = sample.isFaster()
         var distanceRemaining = sample.distanceRemaining()
         //Log.i("SAMPLE CLASS RESULTS","this is faster = $isFaster AND top speed = $topSpeed")
@@ -127,10 +130,10 @@ class SpeedometerService : IntentService("Speedometer Service")
             topSpeed = sample.speedFrame
         this.distanceRemaining = distanceRemaining
         distanceTotal = distances.sum().toDouble()
-        //Log.i("SAMPLE CLASS RESULTS","top speed is $topSpeed AND distance remaining = $distanceRemaining AND then theres distance total $distanceTotal")
+        Log.i("SAMPLE CLASS RESULTS","top speed is $topSpeed AND distance remaining = $distanceRemaining AND then theres distance total $distanceTotal")
         //var current: Float = result.lastLocation.distanceTo(location)
         sendToActivity(sample, "GpsSample: ")
-        if (!serviceState)
+        if (!serviceState||completedState)
             isDone = true
     }
 
@@ -169,6 +172,7 @@ class SpeedometerService : IntentService("Speedometer Service")
             distances.add(0.0f)//ignore errorsome behavior using emulator
 
         distanceTotal += distances.lastElement()
+        Log.i("DISTANCESTOTAL", distanceTotal.toString())
 
         result_to__add.set(0,distance)
         result_to__add.set(4, distanceTotal.toFloat())
