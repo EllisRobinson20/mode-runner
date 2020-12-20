@@ -15,6 +15,7 @@ import android.widget.ListView
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import kotlin.collections.ArrayList
@@ -122,7 +123,10 @@ class SpeedometerService : IntentService("Speedometer Service")
         updateLocation(result)
         updateDistance(result)
         var currentDuration = updateDuration(result) //instead of: times.lastElement() - times[times.size-2]
-        var sample = GpsSample(distances.lastElement(), currentDuration.first(), currentDuration.last(), topSpeed, targetDistance, distanceTotal, serviceState, completedState)
+
+        var sample = GpsSample(distances.lastElement(), currentDuration.first(), currentDuration.last(), topSpeed, targetDistance, distanceTotal, serviceState, completedState,
+        LatLng(result.lastLocation.latitude, result.lastLocation.longitude)
+        )
         var isFaster = sample.isFaster()
         var distanceRemaining = sample.distanceRemaining()
         //Log.i("SAMPLE CLASS RESULTS","this is faster = $isFaster AND top speed = $topSpeed")

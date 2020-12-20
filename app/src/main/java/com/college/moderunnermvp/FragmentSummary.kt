@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.activity_speedometer.tab_layout
@@ -26,6 +28,7 @@ class FragmentSummary : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     var dTag: String = "FragmentSummary"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(dTag, "onCreate fired")

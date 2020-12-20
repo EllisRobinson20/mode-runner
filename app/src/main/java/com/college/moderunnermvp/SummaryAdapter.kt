@@ -8,7 +8,7 @@ class SummaryAdapter (fm:FragmentManager) : FragmentPagerAdapter(fm, FragmentPag
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0-> {
-                FragmentHome()
+                FragmentMap()
             }
             1-> {
                 GraphSummaryFragment()

@@ -4,12 +4,14 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.RequiresApi
+import com.google.android.gms.maps.model.LatLng
 import java.text.DecimalFormat
 
 //The updateDuration in speedometer deals with converting time samples to seconds
 class GpsSample(
     var distanceFrame: Float,
-    var timeFrame: Double, val overallTime: Double, val topSpeed: Double, val target: Int, val totalDistance: Double, val serviceIsRunning: Boolean, val serviceComplete: Boolean):
+    var timeFrame: Double, val overallTime: Double, val topSpeed: Double, val target: Int, val totalDistance: Double, val serviceIsRunning: Boolean, val serviceComplete: Boolean,
+    var latLong:LatLng?):
     Parcelable
 {
 
@@ -29,7 +31,8 @@ class GpsSample(
         parcel.readInt(),
         parcel.readDouble(),
         parcel.readBoolean(),
-        parcel.readBoolean()
+        parcel.readBoolean(),
+        parcel.readParcelable<LatLng>(ClassLoader.getSystemClassLoader())
     ) {
     }
 
@@ -54,6 +57,7 @@ class GpsSample(
         parcel.writeDouble(totalDistance)
         parcel.writeBoolean(serviceIsRunning)
         parcel.writeBoolean(serviceComplete)
+        parcel.writeParcelable(latLong,flags)
     }
 
     override fun describeContents(): Int {
