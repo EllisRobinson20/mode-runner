@@ -21,6 +21,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.fragment_dial_gauge.*
+import kotlinx.android.synthetic.main.fragment_dial_numbers.*
+import kotlinx.android.synthetic.main.fragment_summary.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -120,7 +124,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
             )
             txt_distance_covered.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().totalDistance)
-            txt_average_speed.text = model.UIModel().averageSpeed().toString()
+            txt_average_speed.text = numberFormat.format(model.UIModel().averageSpeed().toString())
             var elapsedTime: Double = getElapsedTime()
             chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
         }
@@ -142,6 +146,13 @@ class TimeTracker : Fragment(), View.OnClickListener {
             prompter_label.text = "Set Distance First"
         } else
             prompter_label.text = "Ready!"
+
+        val adapter = SpeedViewAdapter(this.childFragmentManager)
+        var view_pager = activity!!.findViewById<ViewPager>(R.id.dial_view_pager)
+        view_pager?.adapter = adapter
+
+
+        //summary_tab_layout.setupWithViewPager(dial_view_pager)
     }
 
     private fun getElapsedTime(): Double {
@@ -206,6 +217,12 @@ class TimeTracker : Fragment(), View.OnClickListener {
                 stopStartButton(gpsSample!!.serviceComplete)
             Log.i("MODELVIEW SIZE", model.SpeedometerFragmentModel.size.toString())
             Log.i("SERVICERUNNING BOOLEAN", gpsSample?.serviceIsRunning.toString())
+
+            Log.d("BROADCASTRECEIVER", "Broadcast received")
+            accelerationView.speedTo(model.SpeedometerFragmentModel.lastElement().accelerationFrame.toFloat(), 1)
+            topSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().topSpeed.toFloat(), 1)
+            currentSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().speedFrame.toFloat(), 1)
+            //currentSpeedView.withTremble = true
         }
     }
 

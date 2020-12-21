@@ -3,18 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GraphSummaryFragment">
+    tools:context=".GraphSummaryFragment"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp">
+        android:padding="30dp"
+        >
         <TextView
             android:text="text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title_chart_1"
             android:textColor="@color/colorOnPrimary"
+            android:layout_marginTop="55dp"
             />
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"

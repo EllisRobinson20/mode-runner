@@ -23,6 +23,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/prompter"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_margin="0dp"
@@ -41,116 +42,18 @@
             android:elevation="24dp"
             android:id="@+id/prompter_label"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="100dp"
-        android:scaleX="0.8"
-        android:scaleY="0.8">
-        <TextView
-            android:layout_marginTop="95dp"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/acceleration"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayText"/>
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginTop="35dp"
-            android:textSize="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/numbers_acceleration"
-            android:id="@+id/numbers_acceleration"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayTextLarge"/>
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginLeft="95dp"
-            android:layout_marginTop="75dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/metre_second_squared"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayText"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="200dp"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
-        >
-        <TextView
-            android:layout_marginTop="95dp"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/top_speed"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayText"/>
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginTop="35dp"
-            android:textSize="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/numbers_acceleration"
-            android:id="@+id/top_speed"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayTextLarge"/>
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginLeft="95dp"
-            android:layout_marginTop="75dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/metre_second"
-            android:textColor="@color/colorOnPrimarySoft"
-            style="@style/OverlayText"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="100dp"
-        android:scaleX="1.2"
-        android:scaleY="1.2">
-        <TextView
-            android:layout_marginTop="95dp"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/currentSpeed"
-            android:textColor="@color/colorOnPrimary"
-            style="@style/OverlayText"
-            />
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginTop="35dp"
-            android:textSize="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/numbers_current_speed"
-            android:id="@+id/numbers_speed"
-            android:textColor="@color/colorOnPrimary"
-            style="@style/OverlayTextLarge"/>
-        <TextView
-            android:textAlignment="center"
-            android:layout_marginLeft="95dp"
-            android:layout_marginTop="75dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/metre_second"
-            android:textColor="@color/colorOnPrimary"
-            style="@style/OverlayText"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dial_view_pager"
+        android:layout_below="@+id/prompter"
+        android:layout_centerInParent="true"
+        />
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="850px"
         android:layout_height="100dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="380dp"
         app:cardBackgroundColor="@color/colorBlackGlass"
         app:cardElevation="03dp"
         app:cardCornerRadius="0dp"

@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -93,16 +95,26 @@ class FragmentMap : Fragment(), OnMapReadyCallback {
                     var latLong:LatLng = gpsObject.latLong!!
                     var markerOptions = MarkerOptions().position(latLong)
                     var marker = gMap!!.addMarker(markerOptions)
+                    if (markerList.size > 0)
+                        marker.isVisible = false
                     latLongList.add(latLong)
                     markerList.add(marker)
 
-                    if (polyline!= null) polyline?.remove()
-                    var polylineOptions = PolylineOptions().addAll(latLongList).clickable(true)
-                    polyline = gMap!!.addPolyline(polylineOptions)
-                    polyline!!.width = 3f
-                    polyline!!.color = R.color.colorAccent
+
                 }
 
+                markerList.last().isVisible = true
+                if (polyline!= null) polyline?.remove()
+                var polylineOptions = PolylineOptions().addAll(latLongList).clickable(true)
+                polyline = gMap!!.addPolyline(polylineOptions)
+                polyline!!.width = 8f
+                var colorAccent = this.context?.let { ContextCompat.getColor(it, R.color.colorAccent) }
+                if (colorAccent != null) {
+                    polyline!!.color = colorAccent
+                }
+                gMap!!.setMinZoomPreference(20f)
+                gMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLongList[latLongList.size/2]))
+                //gMap!!.setLatLngBoundsForCameraTarget(LatLngBounds(latLongList[0], latLongList.last()))
             })
         }
 
