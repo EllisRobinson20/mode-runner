@@ -14,7 +14,7 @@ class SummaryAdapter (fm:FragmentManager) : FragmentPagerAdapter(fm, FragmentPag
                 GraphSummaryFragment()
             }
             else -> {
-                FragmentPersonalBest()
+                FragmentStats()
             }
         }
     }

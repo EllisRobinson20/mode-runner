@@ -9,6 +9,7 @@ class SharedMessage : ViewModel() {
     var SpeedometerFragmentMsg = ""
     var SettingsFragmentMsg = ""
     var SpeedometerFragmentModel: Vector<GpsSample> = Vector(0,1)
+    var HistoryFragmentModel: Vector<DataSample> = Vector(0,1)
 
     override fun onCleared() {
         super.onCleared()

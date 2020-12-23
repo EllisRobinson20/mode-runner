@@ -1,10 +1,7 @@
 package com.college.moderunnermvp
 
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
@@ -26,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_dial_gauge.*
 import kotlinx.android.synthetic.main.fragment_dial_numbers.*
 import kotlinx.android.synthetic.main.fragment_summary.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
+import java.lang.RuntimeException
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -38,6 +36,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(activity as FragmentActivity).get(SharedMessage::class.java)
     }
+    private var listener: OnFragmentInteraction? = null
 
     //var messageReceiver: LocalBroadcastManager = LocalBroadcastManager.getInstance()
 
@@ -65,6 +64,15 @@ class TimeTracker : Fragment(), View.OnClickListener {
             startViewTimer()
         }
     }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteraction) {
+            listener=context
+        } else {
+            throw RuntimeException(context.toString()+"must implement OnFragmentListener")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         numberFormat.roundingMode = RoundingMode.CEILING
         Log.i("tag", "onCreate")
@@ -107,6 +115,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
         }
         super.onViewCreated(view, savedInstanceState)
     }
+
     override fun onStart() {
         super.onStart()
             txt_distance_remaining.text = model.SettingsFragmentMsg
@@ -153,6 +162,16 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
 
         //summary_tab_layout.setupWithViewPager(dial_view_pager)
+    }
+
+    override fun onDestroyView() {
+        Log.i("TimeTracker", "On Destroy View")
+        listener?.onFragmentInteraction("SaveState")
+        super.onDestroyView()
+    }
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     private fun getElapsedTime(): Double {
@@ -302,9 +321,6 @@ class TimeTracker : Fragment(), View.OnClickListener {
     private fun showRunSummary()
     {
         // show a summary of run data
-
-
-
         val fragmentSummary = FragmentSummary()
         val fragmentManager = activity!!.supportFragmentManager
         val fragmentTransaction =fragmentManager.beginTransaction()
@@ -313,5 +329,9 @@ class TimeTracker : Fragment(), View.OnClickListener {
         fragmentTransaction.replace(R.id.fragment_summary, fragmentSummary)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+
+    }
+    interface OnFragmentInteraction {
+        fun onFragmentInteraction(someText: String)
     }
 }
