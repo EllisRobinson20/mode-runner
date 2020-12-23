@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/history_card"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+
+            app:cardBackgroundColor="@color/colorBlackGlass"
+            app:cardElevation="03dp"
+            app:cardCornerRadius="0dp"
+
+            app:strokeColor="@color/colorBase"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                >
+                <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Finish Time:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <com.college.moderunnermvp.Chronometer
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h_txt_finish_time"
+                        android:textColor="@color/colorOnPrimary"
+                        android:layout_marginLeft="5dp"
+                        android:textAlignment="textEnd"
+
+                        />
+
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Total Distance:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:id="@+id/h_txt_distance_covered"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_distance"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        ></TextView>
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Average Speed:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:id="@+id/h_txt_final_average_speed"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_average_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre_second_squared"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        ></TextView>
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Top Speed:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:id="@+id/h_txt_top_speed"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_top_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre_second"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        ></TextView>
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Peak Acceleration:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:id="@+id/h_txt_peak_acceleration"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_average_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd"
+                        ></TextView>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre_second_squared"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        ></TextView>
+                </TableRow>
+            </TableLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:text="text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_chart_1"
+            android:textColor="@color/colorOnPrimary"
+            android:layout_below="@id/history_card"
+            />
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/line_chart"
+            android:layout_below="@id/title_chart_1"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
+
+        <TextView
+            android:text="text2"
+            android:textColor="@color/colorOnPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_chart"
+            android:id="@+id/title_chart_2"
+            />
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/line_chart_distance"
+            android:layout_below="@id/title_chart_2"
+            android:layout_marginBottom="30dp"
+            >
+        </com.github.mikephil.charting.charts.LineChart>
+    </RelativeLayout>
+
+
+</ScrollView>
