@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/history_card"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+
+            app:cardBackgroundColor="@color/colorBlackGlass"
+            app:cardElevation="03dp"
+            app:cardCornerRadius="0dp"
+
+            app:strokeColor="@color/colorBase"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                >
+                <TableRow>
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Target"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:id="@+id/pb_txt_target"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_distance"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8" />
+
+                </TableRow>
+                <TableRow>
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Top Speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:id="@+id/pb_top_speed"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_distance"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8" />
+                </TableRow>
+                <TableRow>
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Peak Acceleration:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:id="@+id/pb_txt_peak_acceleration"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_average_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="@string/metre_second_squared"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+
+                        android:scaleX=".8"
+                        android:scaleY=".8" />
+                </TableRow>
+                <TableRow>
+
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Best Time"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        android:id="@+id/pb_best_time"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_top_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"
+                        android:textAlignment="textEnd" />
+                </TableRow>
+
+            </TableLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

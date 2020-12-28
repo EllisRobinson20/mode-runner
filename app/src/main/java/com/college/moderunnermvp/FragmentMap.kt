@@ -112,7 +112,7 @@ class FragmentMap : Fragment(), OnMapReadyCallback {
                 if (colorAccent != null) {
                     polyline!!.color = colorAccent
                 }
-                gMap!!.setMinZoomPreference(16f)
+                gMap!!.setMinZoomPreference(12f)
                 gMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLongList[latLongList.size/2]))
                 //gMap!!.setLatLngBoundsForCameraTarget(LatLngBounds(latLongList[0], latLongList.last()))
             })

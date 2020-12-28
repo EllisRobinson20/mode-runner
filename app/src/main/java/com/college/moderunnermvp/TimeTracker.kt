@@ -122,20 +122,20 @@ class TimeTracker : Fragment(), View.OnClickListener {
     }
     override fun onResume() {
         if (!model.SpeedometerFragmentModel.isEmpty()) {
-            numbers_acceleration.text =
+            numbers_acceleration?.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().accelerationFrame)
-            top_speed.text =
+            top_speed?.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().topSpeed)
-            numbers_speed.text =
+            numbers_speed?.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().speedFrame)
-            txt_distance_remaining.text = numberFormat.format(
+            txt_distance_remaining?.text = numberFormat.format(
                 model.SpeedometerFragmentModel.lastElement().distanceRemaining()
             )
-            txt_distance_covered.text =
+            txt_distance_covered?.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().totalDistance)
-            txt_average_speed.text = numberFormat.format(model.UIModel().averageSpeed().toString())
+            txt_average_speed?.text = numberFormat.format(model.UIModel().averageSpeed())
             var elapsedTime: Double = getElapsedTime()
-            chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
+            chronometer?.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
         }
         /*if (!model.SpeedometerFragmentModel.isEmpty()) {
             txt_distance_covered.text = model.SpeedometerFragmentModel.lastElement().totalDistance.toString()
@@ -166,10 +166,12 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
     override fun onDestroyView() {
         Log.i("TimeTracker", "On Destroy View")
-        listener?.onFragmentInteraction("SaveState")
+        if (serviceState == false)
+            listener?.onFragmentInteraction("SaveState")
         super.onDestroyView()
     }
     override fun onDetach() {
+        serviceState = true
         super.onDetach()
         listener = null
     }

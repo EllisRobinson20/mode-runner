@@ -17,6 +17,7 @@ import androidx.core.database.getDoubleOrNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_speedometer.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -89,7 +90,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             applicationContext.deleteDatabase("db_history")
         db = openOrCreateDatabase("db_history", Context.MODE_PRIVATE, null)
         db!!.execSQL("CREATE TABLE IF NOT EXISTS user (height INT, weight INT, waist INT)")
-        db!!.execSQL("CREATE TABLE IF NOT EXISTS history (date STRING, targetDistance INT, finishTime REAL, topSpeed REAL, averageSpeed REAL, peakAcceleration Real, finalDistance FLOAT)")
+        db!!.execSQL("CREATE TABLE IF NOT EXISTS history (date STRING, targetDistance INT, finishTime REAL, topSpeed REAL, averageSpeed REAL, peakAcceleration Real, finalDistance FLOAT, latLongArray STRING)")
 
         var cursor: Cursor = db!!.rawQuery("select * from history",null)
         if (cursor.moveToFirst()) {
@@ -101,6 +102,8 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 var averageSpeed = cursor.getString(4)
                 var peakAcceleration = cursor.getString(5)
                 var finalDistance = cursor.getString(6)
+                //var latLngString = cursor.getString(7) not in use
+
                 val dataSample:DataSample = DataSample(date,targetDistance,finishTime,topSpeed,averageSpeed,peakAcceleration,finalDistance)
                 model.HistoryFragmentModel.addElement(dataSample)
                 Log.i(Tag, model.HistoryFragmentModel.lastElement().date)
@@ -109,6 +112,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         }
 
     }
+
 
     override fun onResume() {
         Log.i(Tag, "onResume")
@@ -196,6 +200,13 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             }
             //Save to database here
 
+            var latLongList = arrayListOf<LatLng>()
+            for (data in model.SpeedometerFragmentModel) {
+                data.latLong?.let { latLongList.add(it) }
+            }
+            //latLongList.joinToString()
+            Log.i(Tag, "Lat Long List: $latLongList")
+
             var row1: ContentValues = ContentValues()
             row1.put("date", getDateTime())
             //Log.i(Tag, "")
@@ -205,18 +216,9 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             row1.put("averageSpeed", model.UIModel().instantaneousAverageSpeed())
             row1.put("peakAcceleration", acceleration)
             row1.put("finalDistance", model.SpeedometerFragmentModel.lastElement().totalDistance)
-            db!!.insert("history",null,row1)
-            /*var cursor: Cursor = db!!.rawQuery("select * from history",null)
+            row1.put("latLongArray", latLongList.toString())
+            db!!.insert("history",null, row1)
 
-            cursor.moveToLast()
-            var time2 = cursor.getString(0)
-            val parts = time2.split(" ")
-            var first = parts[0]
-            var p = null as LocalDateTime
-            p = LocalDateTime.parse(time2, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))
-            //var time3 = cursor.getString(6).toFloat()
-
-            cursor.close()*/
             db!!.close()
             //Log.i("Speedomoeter", "time values: $p")
             //at some point in the lifecycle the the view model should take a list of objects which store the history

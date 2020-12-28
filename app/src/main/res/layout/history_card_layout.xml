@@ -9,17 +9,26 @@
         android:layout_height="wrap_content"
         android:padding="30dp">
 
+        <TextView
+            android:textSize="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_date"
+            android:textColor="@color/colorAccent"
+
+            />
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/history_card"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
-
+            android:layout_below="@+id/title_date"
             app:cardBackgroundColor="@color/colorBlackGlass"
             app:cardElevation="03dp"
             app:cardCornerRadius="0dp"
-
             app:strokeColor="@color/colorBase"
             >
             <TableLayout

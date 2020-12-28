@@ -13,6 +13,8 @@ class HistoryAdapter(myContext:Context, historyList:List<DataSample>): RecyclerV
     var hList = historyList
 
     inner class HistoryViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
+        var viewDate:TextView = itemView.findViewById(R.id.title_date)
+        var viewFinishTime: TextView = itemView.findViewById(R.id.h_txt_finish_time)
         var viewDistance: TextView = itemView.findViewById(R.id.h_txt_distance_covered)
         var viewAverageSpeed: TextView = itemView.findViewById(R.id.h_txt_final_average_speed)
         var viewTopSpeed: TextView = itemView.findViewById(R.id.h_txt_top_speed)
@@ -34,6 +36,8 @@ class HistoryAdapter(myContext:Context, historyList:List<DataSample>): RecyclerV
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         var history: DataSample = hList[position]
 
+        holder.viewDate.text = history.date
+        holder.viewFinishTime.text = history.finishTime
         holder.viewDistance.text = history.targetDistance
         holder.viewAverageSpeed.text = history.averageSpeed
         holder.viewTopSpeed.text = history.topSpeed
