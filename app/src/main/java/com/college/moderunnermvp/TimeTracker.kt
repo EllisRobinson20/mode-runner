@@ -278,7 +278,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
             else
                 timer.start()// start countdown in prompter then start the service
             startButton.text = "Stop"
-            button_reset.visibility = View.INVISIBLE
+            button_reset.isEnabled = true
 
         }
         else if (startButton.text == "Start" && serviceState == false) {
@@ -295,7 +295,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
                 timer.start()// start countdown in prompter then start the service
             }
             startButton.text = "Stop"
-            button_reset.visibility = View.INVISIBLE
+            button_reset.isEnabled = false
         }
         else
         {

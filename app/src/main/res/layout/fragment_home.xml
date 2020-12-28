@@ -1,132 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".FragmentHome">
 
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="0dp"
-        app:cardBackgroundColor="@color/colorOnSurface"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="02dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        >
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView3"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="381dp"
-        app:cardBackgroundColor="@color/colorBlackGlass"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="03dp"
-        app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/colorBase">
-
-        <TableLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="20dp">
+            android:layout_height="1000dp"
+            android:layout_margin="0dp"
+            app:cardBackgroundColor="@color/colorOnSurface"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="02dp"
+            android:layout_centerInParent="true" />
 
-            <TableRow>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView3"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="100dp"
+            app:cardBackgroundColor="@color/colorBlackGlass"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="03dp"
+            app:strokeColor="@color/colorBase">
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:text="Distance To Run:"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/target_set"
-                    android:paddingLeft="5dp"
-                    android:text="@string/numbers_distance"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
+                <TableRow>
 
-                <TextView
-                    android:layout_marginLeft="-20dp"
-                    android:paddingLeft="5dp"
-                    android:scaleX=".8"
-                    android:scaleY=".8"
-                    android:text="@string/metre"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
-            </TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Distance To Run:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
 
-            <TableRow>
+                    <TextView
+                        android:id="@+id/target_set"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_distance"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:text="Personal Best Time:"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
+                    <TextView
+                        android:layout_marginLeft="-20dp"
+                        android:paddingLeft="5dp"
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        android:text="@string/metre"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
+                </TableRow>
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:text="@string/numbers_time"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Personal Best Time:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:text="Personal Best Speed:"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
+                    <TextView
+                        android:id="@+id/view_time"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_time"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
+                </TableRow>
 
-                <TextView
-                    android:paddingLeft="5dp"
-                    android:text="@string/numbers_average_speed"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
+                <TableRow>
 
-                <TextView
-                    android:layout_marginLeft="-20dp"
-                    android:paddingLeft="5dp"
-                    android:scaleX=".8"
-                    android:scaleY=".8"
-                    android:text="@string/metre_second"
-                    android:textColor="@color/colorOnPrimary"
-                    android:textSize="15sp"></TextView>
-            </TableRow>
-        </TableLayout>
-    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:paddingLeft="5dp"
+                        android:text="Personal Best Speed:"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:layout_width="@android:dimen/notification_large_icon_width"
-        android:layout_height="@android:dimen/notification_large_icon_width"
-        android:layout_marginStart="400dp"
-        android:scaleX="2.5"
-        android:scaleY="2.5"
-        android:text="  GO"
-        android:textAlignment="center"
-        android:textSize="10dp"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
-        app:layout_constraintEnd_toEndOf="@+id/materialCardView2"
-        app:layout_constraintEnd_toStartOf="@+id/materialCardView2"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView3"
-        app:layout_constraintVertical_bias="0.39"
-        app:rippleColor="@android:color/transparent" />
+                    <TextView
+                        android:id="@+id/view_speed"
+                        android:paddingLeft="5dp"
+                        android:text="@string/numbers_average_speed"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
+
+                    <TextView
+                        android:layout_marginLeft="-20dp"
+                        android:paddingLeft="5dp"
+                        android:scaleX=".8"
+                        android:scaleY=".8"
+                        android:text="@string/metre_second"
+                        android:textColor="@color/colorOnPrimary"
+                        android:textSize="15sp"></TextView>
+                </TableRow>
+            </TableLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:layout_width="@android:dimen/notification_large_icon_width"
+            android:layout_height="@android:dimen/notification_large_icon_width"
+
+            android:scaleX="2.5"
+            android:scaleY="2.5"
+            android:text="  GO"
+            android:textAlignment="center"
+            android:textSize="10dp"
+            app:backgroundTint="@color/colorAccent"
+
+            app:rippleColor="@android:color/transparent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/materialCardView3"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
+
+
+</ScrollView>

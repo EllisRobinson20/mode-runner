@@ -190,7 +190,7 @@
         app:iconPadding="0dp"
         app:iconSize="@android:dimen/app_icon_size"
         android:background="@android:color/transparent"
-        android:visibility="invisible"
+
         app:rippleColor="@color/colorBlackGlass"
         />
 

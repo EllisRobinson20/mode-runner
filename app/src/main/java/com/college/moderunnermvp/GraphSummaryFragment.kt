@@ -66,6 +66,14 @@ class GraphSummaryFragment : Fragment(), OnChartGestureListener, OnChartValueSel
         return inflater.inflate(R.layout.fragment_running_history, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        title_chart_1.visibility = View.VISIBLE
+        title_chart_2. visibility = View.VISIBLE
+        line_chart.visibility = View.VISIBLE
+        line_chart_distance.visibility = View.VISIBLE
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -47,6 +47,10 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
         return inflater.inflate(R.layout.fragment_running_history, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        title_chart_1.visibility = View.INVISIBLE
+        title_chart_2. visibility = View.INVISIBLE
+        line_chart.visibility = View.INVISIBLE
+        line_chart_distance.visibility = View.INVISIBLE
 
 
         var recyclerView: RecyclerView = RecyclerView(this.requireContext())
@@ -58,8 +62,8 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
         super.onViewCreated(view, savedInstanceState)
     }
     override fun onResume() {
-        //createLineChart(R.id.line_chart, "Time")
-        //createLineChart(R.id.line_chart_distance, "Distance") only used to show static table in the running history. not needing for graph summary
+        createLineChart(R.id.line_chart, "Time")
+        createLineChart(R.id.line_chart_distance, "Distance") //only used to show static table in the running history. not needing for graph summary
         super.onResume()
     }
     override fun onChartGestureEnd(
@@ -100,5 +104,155 @@ class FragmentRunningHistory : Fragment(), OnChartGestureListener, OnChartValueS
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
     }
-    
+    private fun createLineChart(lineChart: Int, chart: String) {
+        title_chart_2.text = "Distance"
+        title_chart_1.text = "Time"
+        var colorAccent = this.context?.let { ContextCompat.getColor(it, R.color.colorAccent) }
+        var colorOnPrimary = this.context?.let {ContextCompat.getColor(it, R.color.colorOnPrimary)}
+
+        var line_chart =  activity?.findViewById<LineChart>(lineChart)
+
+        line_chart?.onChartGestureListener = this
+        line_chart?.setOnChartValueSelectedListener(this)
+        line_chart?.isDragEnabled = true
+        line_chart?.setScaleEnabled(false)
+        line_chart?.xAxis?.textColor = colorOnPrimary!!
+        line_chart?.axisLeft?.textColor = colorOnPrimary
+        line_chart?.axisRight?.textColor = colorOnPrimary
+        line_chart?.legend?.textColor = colorOnPrimary
+
+        line_chart?.axisRight?.isEnabled = false
+        line_chart?.xAxis?.position = XAxis.XAxisPosition.BOTH_SIDED
+
+        //Log.i("createLineChart", model.UIModel().averageSpeed().toString())
+
+        var label = "Average Speed"
+        if (!model.SpeedometerFragmentModel.isEmpty()) {
+            //var yPosition = if (model.SpeedometerFragmentModel.lastElement().topSpeed.toFloat()>0) model.SpeedometerFragmentModel.lastElement().topSpeed.toFloat() else 0f
+            var avgSpeedYPosition = model.UIModel().instantaneousAverageSpeed().toFloat()
+            Log.i("instantaneousAVG", model.UIModel().instantaneousAverageSpeed().toString())
+            var upperLimit: LimitLine = LimitLine(avgSpeedYPosition, label)
+            upperLimit.lineWidth = 4f
+            upperLimit.enableDashedLine(10f,10f,0f)
+            upperLimit.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+            upperLimit.textSize = 15f
+            upperLimit.textColor = colorOnPrimary
+            upperLimit.lineColor = colorOnPrimary!!
+
+        /*    var leftAxis = line_chart?.axisLeft
+        leftAxis?.removeAllLimitLines()
+        leftAxis?.addLimitLine(upperLimit)*/
+            var leftAxis: YAxis = line_chart?.axisLeft ?: YAxis()
+            leftAxis.removeAllLimitLines()
+            leftAxis.addLimitLine(upperLimit)
+            leftAxis.setDrawLimitLinesBehindData(true)
+            leftAxis.enableGridDashedLine(10f, 10f, 0f)
+        }
+
+
+
+        var colorBlackGlass = this.context?.let { ContextCompat.getColor(it, R.color.colorBlackGlass) }
+        line_chart?.setBackgroundColor(colorBlackGlass!!)
+        var colorOnSurface = this.context?.let { ContextCompat.getColor(it, R.color.colorOnSurface) }
+        colorOnSurface?.let { line_chart?.setGridBackgroundColor(it) }
+        var d = Description()
+        d.text = "Run History"
+        if (colorOnSurface != null) {
+            d.textColor = colorOnSurface
+            d.textSize = 15f
+        }
+        line_chart?.description = d
+
+        line_chart?.invalidate()
+        var speedValues = ArrayList<Entry>()
+        var accelerationValues = ArrayList<Entry>()
+        var timeValues = ArrayList<Entry>()
+        var compoundedTime = 0.0
+        fun rtnIf(): GpsSample? {
+            return if (model.SpeedometerFragmentModel.size>1)
+                model.SpeedometerFragmentModel.firstElement()
+            else
+                null
+
+        }
+        var previousObject = rtnIf()
+        // for each gpsData object -> get the speed reading and the total time frame
+        // speed reading will be the yValues. the constant time value will be the xValues
+        /*yValues.add(Entry(0f, 70f))
+        yValues.add(Entry(1f, 80f))
+        yValues.add(Entry(2f, 90f))
+        yValues.add(Entry(3f, 80f))*/
+        if (chart == "Distance") {
+            for (data in model.SpeedometerFragmentModel) {
+                speedValues.add(Entry(data.totalDistance.toFloat(), data.speedFrame.toFloat()))
+                if (data.accelerationFrame > 100)
+                    accelerationValues.add(Entry(data.totalDistance.toFloat(), previousObject!!.accelerationFrame.toFloat()))
+                else
+                    accelerationValues.add(Entry(data.totalDistance.toFloat(), data.accelerationFrame.toFloat()))
+                if (data.totalDistance != model.SpeedometerFragmentModel.lastElement().totalDistance) {
+                    compoundedTime += data.timeFrame.toFloat()
+                    timeValues.add(Entry(data.totalDistance.toFloat(), compoundedTime.toFloat()))
+                }
+                previousObject = data
+            }
+        }
+        else if (chart == "Time") {
+            for (data in model.SpeedometerFragmentModel) {
+                speedValues.add(Entry(data.overallTime.toFloat(), data.speedFrame.toFloat()))
+                if (data.accelerationFrame > 100)
+                    accelerationValues.add(Entry(data.overallTime.toFloat(), previousObject!!.accelerationFrame.toFloat()))
+                else
+                    accelerationValues.add(Entry(data.overallTime.toFloat(), data.accelerationFrame.toFloat()))
+
+
+                    timeValues.add(Entry(data.overallTime.toFloat(), data.totalDistance.toFloat()))
+
+                previousObject = data// this helps to remove errors in the acceleration test data
+            }
+        }
+
+        fun rtnTimeDistanceX(string:String): String {
+            return if (string == "Time")
+                "Distance"
+            else
+                "Time"
+        }
+        var set1 = LineDataSet(speedValues, "Speed")
+        set1.fillAlpha = 110
+
+        var set2 = LineDataSet(accelerationValues, "Acceleration")
+        set2.fillAlpha = 110
+        var set3 = LineDataSet(timeValues, rtnTimeDistanceX(chart))
+        set3.fillAlpha = 110
+
+
+        if (colorAccent != null) {
+            set1.color = colorAccent
+        }
+        set1.lineWidth = 3f
+        set2.color = colorOnSurface!!
+        set2.lineWidth = 3f
+        set3.color = colorOnPrimary!!
+        set3.lineWidth = 3f
+
+        if (colorOnPrimary != null) {
+            set1.valueTextColor = colorOnPrimary
+        }
+        set1.valueTextSize = 10f
+        set2.valueTextColor = colorOnPrimary
+        set2.valueTextSize = 10f
+        set3.valueTextColor = colorOnPrimary
+        set3.valueTextSize = 10f
+
+        Log.i("SETDATA", "$set1")
+        var dataSet = ArrayList<ILineDataSet>()
+        dataSet.add(set1)
+        dataSet.add(set2)
+        dataSet.add(set3)
+        Log.i("SETDATA", "$dataSet")
+        var data = LineData(dataSet)
+        Log.i("SETDATA", "${data.dataSets}")
+        line_chart?.data = data
+        Log.i("SETDATA", "${data.dataSets}")
+    }
 }
