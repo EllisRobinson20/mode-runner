@@ -36,6 +36,7 @@ class FragmentHome : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
     override fun onStart() {
@@ -48,6 +49,14 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        button_go.setOnClickListener { view ->
+            var timeTracker: TimeTracker = TimeTracker()
+            var timeTrackerTag: String = "time_tracker_tag"
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.time_tracker, timeTracker, timeTrackerTag)
+                .addToBackStack(null)
+                .commit()
+        }
 
     }
 

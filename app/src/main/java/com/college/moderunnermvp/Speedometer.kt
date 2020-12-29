@@ -42,14 +42,10 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     var homeFragment: FragmentHome = FragmentHome()
     var timeTrackerTag: String = "time_tracker_tag"
     var settingsTag: String = "settings_tag"
-    var homeTag: String = "home_tag"
-    //var msgFromSettingsFrag : String? = null // dont use these as the view model takes care of sharing state and data
-    //var msgFromTimeTracker : String? = null
 
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(this).get(SharedMessage::class.java)
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +79,6 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             }
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createDB() {
         if (devMode)
@@ -107,18 +102,13 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 val dataSample:DataSample = DataSample(date,targetDistance,finishTime,topSpeed,averageSpeed,peakAcceleration,finalDistance)
                 model.HistoryFragmentModel.addElement(dataSample)
                 Log.i(Tag, model.HistoryFragmentModel.lastElement().date)
-
             }
         }
-
     }
-
-
     override fun onResume() {
         Log.i(Tag, "onResume")
         super.onResume()
     }
-
     override fun onAttachFragment(fragment: Fragment) {
         Log.i(Tag, "Fragment attached: $fragment")
         super.onAttachFragment(fragment)
@@ -156,30 +146,6 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     }
     override fun onRationaleAccepted(requestCode: Int) {
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottom_nav_menu,menu) ////// ADD AN OPTIONS MENU HERE
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when (item.itemId) {
-            R.id.nav_home -> supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_settings, homeFragment, homeTag)
-                .addToBackStack(null)
-                .commit()
-            R.id.nav_speed ->  supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
-            .commit()
-            R.id.nav_heart -> Toast.makeText(this, "not available in prototype", Toast.LENGTH_SHORT).show()
-            R.id.nav_settings -> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_settings, settingsFragment, settingsTag)
-                .commit()
-        } // in here add share , save, share or other buttons
-        return super.onOptionsItemSelected(item)
-    }*/
-
     private fun showHomePage() {
         val adapter = FragmentAdapter(supportFragmentManager)
         var view_pager = this.findViewById<ViewPager>(R.id.view_pager)
@@ -204,12 +170,9 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             for (data in model.SpeedometerFragmentModel) {
                 data.latLong?.let { latLongList.add(it) }
             }
-            //latLongList.joinToString()
-            Log.i(Tag, "Lat Long List: $latLongList")
 
             var row1: ContentValues = ContentValues()
             row1.put("date", getDateTime())
-            //Log.i(Tag, "")
             row1.put("targetDistance", model.SpeedometerFragmentModel.lastElement().target)
             row1.put("finishTime", model.SpeedometerFragmentModel.lastElement().overallTime)
             row1.put("topSpeed", model.SpeedometerFragmentModel.lastElement().topSpeed)
@@ -218,11 +181,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             row1.put("finalDistance", model.SpeedometerFragmentModel.lastElement().totalDistance)
             row1.put("latLongArray", latLongList.toString())
             db!!.insert("history",null, row1)
-
             db!!.close()
-            //Log.i("Speedomoeter", "time values: $p")
-            //at some point in the lifecycle the the view model should take a list of objects which store the history
-                //then within the right fragment, these data objects can be aggregated
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)

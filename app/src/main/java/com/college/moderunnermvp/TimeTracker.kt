@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_dial_gauge.*
 import kotlinx.android.synthetic.main.fragment_dial_numbers.*
 import kotlinx.android.synthetic.main.fragment_summary.*
@@ -91,6 +92,8 @@ class TimeTracker : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_time_tracker, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        var tabLayout = view?.findViewById<TabLayout>(R.id.tab_layout)
+        tabLayout?.visibility = View.INVISIBLE
         startButton.setOnClickListener { view ->
             //startButton.isSelected != startButton.isSelected
             if (model.SettingsFragmentMsg != null && model.SettingsFragmentMsg != ""){

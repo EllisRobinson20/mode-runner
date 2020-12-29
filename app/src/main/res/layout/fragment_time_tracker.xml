@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +19,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="800dp"
         android:layout_margin="0dp"
         app:cardBackgroundColor="@color/colorOnSurface"
         app:cardElevation="02dp"
@@ -44,21 +49,23 @@
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:id="@+id/dial_view_pager"
         android:layout_below="@+id/prompter"
         android:layout_centerInParent="true"
         />
 
     <com.google.android.material.card.MaterialCardView
+        android:layout_centerHorizontal="true"
         android:layout_width="850px"
+        android:minWidth="850px"
         android:layout_height="100dp"
         android:layout_marginTop="380dp"
         app:cardBackgroundColor="@color/colorBlackGlass"
         app:cardElevation="03dp"
         app:cardCornerRadius="0dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:strokeColor="@color/colorBase"
         >
         <TableLayout
@@ -196,3 +203,5 @@
 
 
 </RelativeLayout>
+
+</ScrollView>

@@ -115,7 +115,7 @@
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:layout_width="@android:dimen/notification_large_icon_width"
             android:layout_height="@android:dimen/notification_large_icon_width"
-
+            android:id="@+id/button_go"
             android:scaleX="2.5"
             android:scaleY="2.5"
             android:text="  GO"

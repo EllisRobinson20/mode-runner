@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +14,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="800dp"
         app:cardBackgroundColor="@color/colorOnSurface"
         app:cardCornerRadius="0dp"
         app:cardElevation="02dp" />
@@ -56,7 +59,8 @@
                     android:id="@+id/distance_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="6" />
+                    android:ems="6"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_marginLeft="-20dp"
@@ -116,7 +120,7 @@
                     android:id="@+id/height_input_cm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:inputType="number"
                     android:ems="6" />
 
                 <TextView
@@ -143,7 +147,8 @@
                     android:id="@+id/weight_input_kg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="6" />
+                    android:ems="6"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_marginLeft="-20dp"
@@ -169,7 +174,8 @@
                     android:id="@+id/waist_cm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="6" />
+                    android:ems="6"
+                    android:inputType="number"/>
 
                 <TextView
                     android:layout_marginLeft="-20dp"
@@ -189,3 +195,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
