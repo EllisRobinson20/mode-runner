@@ -23,7 +23,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/history_card"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_below="@+id/title_date"
             app:cardBackgroundColor="@color/colorBlackGlass"
@@ -98,6 +98,7 @@
                         android:textAlignment="textEnd"
                         ></TextView>
                     <TextView
+                        android:id="@+id/metric_label_average_speed"
                         android:paddingLeft="5dp"
                         android:text="@string/metre_second_squared"
                         android:textColor="@color/colorOnPrimary"

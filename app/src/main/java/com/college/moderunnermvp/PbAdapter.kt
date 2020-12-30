@@ -1,10 +1,12 @@
 package com.college.moderunnermvp
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
 class PbAdapter(myContext: Context, historyList:List<FragmentPersonalBest.StatsCard>):RecyclerView.Adapter<PbAdapter.PbViewHolder>() {
@@ -26,11 +28,12 @@ class PbAdapter(myContext: Context, historyList:List<FragmentPersonalBest.StatsC
     override fun getItemCount(): Int {
         return hList.size
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: PbViewHolder, position: Int) {
         var stats: FragmentPersonalBest.StatsCard = hList[position]
         holder.viewTarget.text = stats.target
         holder.viewTopSpeed.text = stats.topSpeed
         holder.viewPeakAcceleration.text = stats.acceleration
-        holder.viewBestTime.text = stats.finishTime
+        holder.viewBestTime.text = stats.formatTime()
     }
 }

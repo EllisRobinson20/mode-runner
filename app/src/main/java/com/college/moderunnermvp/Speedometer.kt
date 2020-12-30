@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -63,7 +64,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                     showHomePage()
                 }
                 R.id.nav_speed -> {
-                    tab_layout.visibility = View.INVISIBLE
+                    tab_layout.visibility = INVISIBLE
                     supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_settings, timeTrackerFragment, timeTrackerTag)
                         .addToBackStack(null)
@@ -71,7 +72,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 }
                 R.id.nav_heart -> Toast.makeText(this, "not available in prototype", Toast.LENGTH_SHORT).show()
                 R.id.nav_settings ->{
-                    tab_layout.visibility = View.INVISIBLE
+                    tab_layout.visibility = INVISIBLE
                     supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_settings, settingsFragment, settingsTag)
                     .addToBackStack(null)
@@ -87,15 +88,21 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
         db!!.execSQL("CREATE TABLE IF NOT EXISTS user (height INT, weight INT, waist INT)")
         db!!.execSQL("CREATE TABLE IF NOT EXISTS history (date STRING, targetDistance INT, finishTime REAL, topSpeed REAL, averageSpeed REAL, peakAcceleration Real, finalDistance FLOAT, latLongArray STRING)")
 
-        var cursor: Cursor = db!!.rawQuery("select * from history",null)
+        var cursor: Cursor = db!!.rawQuery("select * from history order by date desc",null)
         if (cursor.moveToFirst()) {
             while (cursor.moveToNext()) {
                 var date = cursor.getString(0)
                 var targetDistance = cursor.getString(1)
                 var finishTime = cursor.getString(2)
                 var topSpeed = cursor.getString(3)
+                if (cursor.getString(3)==null)
+                    topSpeed = "No Record"
                 var averageSpeed = cursor.getString(4)
+                if (cursor.getString(4)==null)
+                    averageSpeed = "No Record"
                 var peakAcceleration = cursor.getString(5)
+                if (cursor.getString(5)==null)
+                    peakAcceleration = "No Record"
                 var finalDistance = cursor.getString(6)
                 //var latLngString = cursor.getString(7) not in use
 
@@ -104,6 +111,8 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
                 Log.i(Tag, model.HistoryFragmentModel.lastElement().date)
             }
         }
+        cursor.close()
+        db!!.close()
     }
     override fun onResume() {
         Log.i(Tag, "onResume")
@@ -115,6 +124,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     }
     override fun onPause() {
         Log.i(Tag, "onPause")
+        tab_layout.visibility = INVISIBLE
         super.onPause()
     }
     override fun onRequestPermissionsResult(
@@ -157,6 +167,12 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onFragmentInteraction(someText: String) {
         Log.i("Speedometer", "OnFragmentInteraction")
+
+        if (someText == "DestroyView") {
+            Log.i("Speedometer", "View Hidden")
+            tab_layout.visibility = INVISIBLE //remove the top button tabs when not on home
+        }
+
         var acceleration: Double = 0.0
         if (someText=="SaveState") {
             Log.i("Speedometer", "SaveState True")
@@ -180,8 +196,12 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             row1.put("peakAcceleration", acceleration)
             row1.put("finalDistance", model.SpeedometerFragmentModel.lastElement().totalDistance)
             row1.put("latLongArray", latLongList.toString())
-            db!!.insert("history",null, row1)
-            db!!.close()
+            db = openOrCreateDatabase("db_history", Context.MODE_PRIVATE, null)
+
+                db!!.insert("history",null, row1)
+                db!!.close()
+
+
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)

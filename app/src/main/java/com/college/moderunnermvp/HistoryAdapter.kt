@@ -1,10 +1,12 @@
 package com.college.moderunnermvp
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
 class HistoryAdapter(myContext:Context, historyList:List<DataSample>): RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
@@ -19,6 +21,8 @@ class HistoryAdapter(myContext:Context, historyList:List<DataSample>): RecyclerV
         var viewAverageSpeed: TextView = itemView.findViewById(R.id.h_txt_final_average_speed)
         var viewTopSpeed: TextView = itemView.findViewById(R.id.h_txt_top_speed)
         var viewPeakAcceleration: TextView = itemView.findViewById(R.id.h_txt_peak_acceleration)
+        // get metric label and alter it if the data returned has no record
+        var metricLabelAverageSpeed: TextView = itemView.findViewById(R.id.metric_label_average_speed)
 
     }
 
@@ -33,14 +37,17 @@ class HistoryAdapter(myContext:Context, historyList:List<DataSample>): RecyclerV
         return hList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         var history: DataSample = hList[position]
 
         holder.viewDate.text = history.date
-        holder.viewFinishTime.text = history.finishTime
+        holder.viewFinishTime.text = history.initTime()
         holder.viewDistance.text = history.targetDistance
         holder.viewAverageSpeed.text = history.averageSpeed
         holder.viewTopSpeed.text = history.topSpeed
         holder.viewPeakAcceleration.text = history.peakAcceleration
+        if (history.averageSpeed == "No Record")
+            holder.metricLabelAverageSpeed.visibility = View.INVISIBLE
     }
 }

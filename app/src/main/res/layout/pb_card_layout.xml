@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/history_card"
@@ -31,7 +31,7 @@
 
                     <TextView
                         android:paddingLeft="5dp"
-                        android:text="Target"
+                        android:text="Target Distance:"
                         android:textColor="@color/colorOnPrimary"
                         android:textSize="15sp"
                         android:textAlignment="textEnd" />
@@ -58,7 +58,7 @@
 
                     <TextView
                         android:paddingLeft="5dp"
-                        android:text="Top Speed"
+                        android:text="Personal Best Speed:"
                         android:textColor="@color/colorOnPrimary"
                         android:textSize="15sp"
                         android:textAlignment="textEnd" />
@@ -110,7 +110,7 @@
 
                     <TextView
                         android:paddingLeft="5dp"
-                        android:text="Best Time"
+                        android:text="Best Overall Time:"
                         android:textColor="@color/colorOnPrimary"
                         android:textSize="15sp"
                         android:textAlignment="textEnd" />

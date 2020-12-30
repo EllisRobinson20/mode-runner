@@ -72,7 +72,10 @@ class TimeTracker : Fragment(), View.OnClickListener {
         } else {
             throw RuntimeException(context.toString()+"must implement OnFragmentListener")
         }
+        listener?.onFragmentInteraction("DestroyView")
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         numberFormat.roundingMode = RoundingMode.CEILING

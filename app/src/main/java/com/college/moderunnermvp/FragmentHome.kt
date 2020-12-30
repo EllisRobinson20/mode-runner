@@ -3,12 +3,14 @@ package com.college.moderunnermvp
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_speedometer.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_time_tracker.*
 import java.text.DecimalFormat
+import java.time.LocalTime
 import javax.crypto.Cipher
 
 
@@ -60,6 +63,7 @@ class FragmentHome : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         var id = 0
@@ -70,9 +74,21 @@ class FragmentHome : Fragment() {
         var cursorTime: Cursor = db!!.rawQuery("SELECT * FROM history WHERE targetDistance = $id ORDER BY finishTime ASC LIMIT 1", null)
         var cursorSpeed: Cursor = db!!.rawQuery("SELECT * FROM history WHERE targetDistance = $id ORDER BY topSpeed DESC LIMIT 1", null)
         if (cursorTime.moveToFirst())
-            view_time.text = numberFormat.format(cursorTime.getString(2).toFloat())
+            view_time.text = formatTime(cursorTime.getString(2))
         if (cursorSpeed.moveToFirst())
             view_speed.text = numberFormat.format(cursorSpeed.getString(3).toFloat())
+        cursorSpeed.close()
+        cursorTime.close()
+        db!!.close()
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun formatTime(time:String): String {
+        var stringList = time.split(".").map { it -> it.trim()}
+        return when (stringList.size) {
+            2 -> return LocalTime.of(0, 0, stringList[0].toInt() ,stringList[1].toInt()).toString()
+            3 -> return LocalTime.of(0, stringList[0].toInt(), stringList[1].toInt() ,stringList[2].toInt()).toString()
+            4 -> return LocalTime.of(stringList[0].toInt(), stringList[1].toInt(), stringList[2].toInt() ,stringList[3].toInt()).toString()
+            else -> LocalTime.of(0, 0,0,0).toString()
+        }
+    }
 }
