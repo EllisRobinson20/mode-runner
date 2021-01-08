@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsFragmentContainer">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".FragmentSettings"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    >
 
 
     <com.google.android.material.card.MaterialCardView
@@ -47,7 +49,8 @@
 
             <TableRow android:padding="8dp">
                 <TextView
-                    android:background="@color/colorBlackGlass"
+                    android:id="@+id/targetCardTitle"
+
                     android:padding="2dp"
                     android:text="Target Distance"
                     android:textColor="@color/colorOnPrimary"
@@ -117,7 +120,6 @@
             android:padding="8dp">
             <TableRow android:padding="8dp">
                 <TextView
-                    android:background="@color/colorBlackGlass"
                     android:padding="2dp"
                     android:text="User Profile"
                     android:textColor="@color/colorOnPrimary"

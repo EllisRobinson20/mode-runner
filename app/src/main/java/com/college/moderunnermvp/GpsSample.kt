@@ -19,8 +19,8 @@ class GpsSample(
     var accelerationFrame = 0.0
 
     init {
-        speedFrame = distanceFrame.div(timeFrame)
-        accelerationFrame = distanceFrame.div((timeFrame)*(timeFrame))
+        speedFrame = calculateSpeed()
+        accelerationFrame = calculateAcceleration()
     }
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
@@ -36,6 +36,12 @@ class GpsSample(
     ) {
     }
 
+    fun calculateSpeed():Double {
+        return distanceFrame.div(timeFrame)
+    }
+    fun calculateAcceleration():Double {
+        return distanceFrame.div((timeFrame)*(timeFrame))
+    }
 
     fun isFaster(): Boolean {
         return speedFrame > topSpeed

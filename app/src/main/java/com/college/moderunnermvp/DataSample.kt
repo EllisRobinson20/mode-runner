@@ -25,9 +25,8 @@ class DataSample(val date:String, val targetDistance:String, val finishTime:Stri
 
     init {
         stringList = finishTime.split(".").map { it -> it.trim()}
-        Log.i("init datasample", stringList.toString())
         targetDistanceNumber = targetDistance.toDouble()
-        finishTimeNumber = finishTime.toDouble()
+        //finishTimeNumber = finishTime.toDouble()
         finishTime
         if (topSpeed != "No Record")
             topSpeedNumber = topSpeed.toDouble()
@@ -38,7 +37,7 @@ class DataSample(val date:String, val targetDistance:String, val finishTime:Stri
         finalDistanceNumber = finalDistance.toDouble()
     }
     fun initTimeStamp(): LocalDateTime {
-        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) //could throw error! did so during init so commented out this.parsedDateTime
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))
     }
     fun initTime(): String {
          return when (stringList.size) {

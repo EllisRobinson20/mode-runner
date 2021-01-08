@@ -30,5 +30,6 @@
     <string name="txt_menu_settings">Settings</string>
     <string name="kilogram">kg</string>
     <string name="map_key" translatable="false">AIzaSyDrTEBEP7g04vauusnn72mjTLARz2MOr3k</string>
+    <string name="txt_go_button">  GO</string>
 
 </resources>

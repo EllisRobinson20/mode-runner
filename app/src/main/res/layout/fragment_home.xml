@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView
+    android:id="@+id/home_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -122,7 +123,7 @@
             android:id="@+id/button_go"
             android:scaleX="2.5"
             android:scaleY="2.5"
-            android:text="  GO"
+            android:text="@string/txt_go_button"
             android:textAlignment="center"
             android:textSize="10dp"
             app:backgroundTint="@color/colorAccent"

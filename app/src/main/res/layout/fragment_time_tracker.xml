@@ -11,7 +11,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    tools:context=".TimeTracker">
+    tools:context=".TimeTracker"
+    android:id="@+id/tt_container">
 
 
 

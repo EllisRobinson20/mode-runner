@@ -78,24 +78,24 @@ class FragmentPersonalBest : Fragment() {
                     if (cursorFinishTime.moveToFirst()) {
                     finishTime = cursorFinishTime.getString(2)
                 }
-                if (cursorTopSpeed.moveToFirst()) {
-                    topSpeed = cursorTopSpeed.getString(3)
+                topSpeed = if (cursorTopSpeed.moveToFirst()) {
+                    cursorTopSpeed.getString(3)
                 } else
-                    topSpeed = "No Record"
+                    "No Record"
                     if (cursorTopSpeed.getString(3)== null) {
                     topSpeed = "No Record"
                 }
-                if (cursorAverageSpeed.moveToFirst() && cursorAverageSpeed.getString(4)!= null) {
-                    averageSpeed = cursorAverageSpeed.getString(4)
+                averageSpeed = if (cursorAverageSpeed.moveToFirst() && cursorAverageSpeed.getString(4)!= null) {
+                    cursorAverageSpeed.getString(4)
                 } else
-                    averageSpeed = "No Record"
+                    "No Record"
                     if (cursorAverageSpeed.getString(4)== null) {
                     averageSpeed = "No Record"
                 }
-                if (cursorPeakAcceleration.moveToFirst()) {
-                    acceleration = cursorPeakAcceleration.getString(5)
+                acceleration = if (cursorPeakAcceleration.moveToFirst()) {
+                    cursorPeakAcceleration.getString(5)
                 } else
-                    acceleration = "No Record"
+                    "No Record"
                     if (cursorPeakAcceleration.getString(5)== null) {
                     acceleration = "No Record"
                 }

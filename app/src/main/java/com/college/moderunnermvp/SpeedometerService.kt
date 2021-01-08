@@ -25,28 +25,18 @@ import kotlin.properties.Delegates
 class SpeedometerService : IntentService("Speedometer Service")
 {
     var Tag: String = "IntentService"
-
-    var distanceToRun: ArrayList<Int> = ArrayList()
-    var listView: ListView? = null
-    var adapter: ArrayAdapter<Int>? = null
-    //var Tag: String = "DistanceToRun"
     val PERMISSION_ID = 42
 
     var targetDistance: Int = 0
     var topSpeed: Double = 0.00
     var distances: Vector<Float> = Vector(1,1)
     var locations: Vector<Location> = Vector(1,1)
-    var speeds: Vector<Float> = Vector(1, 1)
     var times: Vector<Long> = Vector(1,1)
     var distanceTotal: Double = 0.00
     var distanceRemaining: Double = 0.00
-
-    var result: ArrayList<Float> = ArrayList(0)
     var result_to__add = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f) // distance , time , speed , acceleration , total distance covered
 
-
     var globalCounter: Int = 0
-
 
     private val LOCATION_PERMISSION_CODE = 124
 

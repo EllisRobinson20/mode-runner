@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".Speedometer">
+    tools:context=".Speedometer"
+    android:id="@+id/activityContainer">
 
     <com.google.android.material.tabs.TabLayout
         android:layout_height="wrap_content"

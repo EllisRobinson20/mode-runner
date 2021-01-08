@@ -29,17 +29,16 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class TimeTracker : Fragment(), View.OnClickListener {
-
+class TimeTracker : Fragment() {
+    fun getServiceState(): Boolean {
+        return serviceState!!
+    }
     val numberFormat = DecimalFormat("#.##")
+    private var listener: OnFragmentInteraction? = null
     private var serviceState: Boolean? = true//determine if the service is running or not
-
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(activity as FragmentActivity).get(SharedMessage::class.java)
     }
-    private var listener: OnFragmentInteraction? = null
-
-    //var messageReceiver: LocalBroadcastManager = LocalBroadcastManager.getInstance()
 
     val timer = object: CountDownTimer(7000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
@@ -75,8 +74,6 @@ class TimeTracker : Fragment(), View.OnClickListener {
         listener?.onFragmentInteraction("DestroyView")
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         numberFormat.roundingMode = RoundingMode.CEILING
         Log.i("tag", "onCreate")
@@ -101,9 +98,6 @@ class TimeTracker : Fragment(), View.OnClickListener {
             //startButton.isSelected != startButton.isSelected
             if (model.SettingsFragmentMsg != null && model.SettingsFragmentMsg != ""){
                 toggleStartButton()
-                if (startButton.text == "Start")
-
-                Log.i("tag","startButton fired: onViewCreate/TimeTracker")
             } else {
                 var  dialogBuilder = AlertDialog.Builder(activity)
                 var layoutView = layoutInflater.inflate(R.layout.no_input_dialog, null)
@@ -127,6 +121,7 @@ class TimeTracker : Fragment(), View.OnClickListener {
             txt_distance_remaining.text = model.SettingsFragmentMsg
     }
     override fun onResume() {
+        super.onResume()
         if (!model.SpeedometerFragmentModel.isEmpty()) {
             numbers_acceleration?.text =
                 numberFormat.format(model.SpeedometerFragmentModel.lastElement().accelerationFrame)
@@ -143,17 +138,6 @@ class TimeTracker : Fragment(), View.OnClickListener {
             var elapsedTime: Double = getElapsedTime()
             chronometer?.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
         }
-        /*if (!model.SpeedometerFragmentModel.isEmpty()) {
-            txt_distance_covered.text = model.SpeedometerFragmentModel.lastElement().totalDistance.toString()
-            txt_distance_remaining.text = model.SpeedometerFragmentModel.lastElement().distanceRemaining().toString()
-            //Average here speed when calculated
-            var elapsedTime : Long = 0
-            for ((c) in (0..model.SpeedometerFragmentModel.size).withIndex()) {
-                elapsedTime += model.SpeedometerFragmentModel.elementAt(c-1).timeFrame.toLong()
-            }
-            chronometer.base = elapsedTime
-        }*/ // attempt to solve view being destroyed and view not re assigneming
-        super.onResume()
         var fadeIn: Animation = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
         prompter_label.startAnimation(fadeIn)
 
@@ -165,13 +149,9 @@ class TimeTracker : Fragment(), View.OnClickListener {
         val adapter = SpeedViewAdapter(this.childFragmentManager)
         var view_pager = activity!!.findViewById<ViewPager>(R.id.dial_view_pager)
         view_pager?.adapter = adapter
-
-
-        //summary_tab_layout.setupWithViewPager(dial_view_pager)
     }
 
     override fun onDestroyView() {
-        Log.i("TimeTracker", "On Destroy View")
         if (serviceState == false)
             listener?.onFragmentInteraction("SaveState")
         super.onDestroyView()
@@ -183,39 +163,20 @@ class TimeTracker : Fragment(), View.OnClickListener {
     }
 
     private fun getElapsedTime(): Double {
-
         var elapsedTime : Double = 0.00
         for ((c) in (1..model.SpeedometerFragmentModel.size).withIndex()) {
             elapsedTime += model.SpeedometerFragmentModel.elementAt(c).timeFrame
-            Log.i("ELAPSEDTIME TIMETRACKER", elapsedTime.toString())
         }
         return elapsedTime
     }
-
     fun startSpeedometerService() {
-        Log.i("App", "startSpeedometerMode")
         val intent = Intent(activity, SpeedometerService::class.java)
         val textReceived = txt_distance_remaining.text.toString()
         if (txt_distance_remaining != null || txt_distance_remaining.inputType.equals(Int)) {
-
             intent.putExtra("DistanceToRun",textReceived)
-            // Toast.makeText(activity, "variable to add to service: $textReceived", Toast.LENGTH_SHORT).show()
-            Log.i("speedometerService", "startSpeedometer service working "+ textReceived)
-
         }
         activity?.startService(intent)
     }
-
-    override fun onClick(v: View?) {
-
-    }
-
-    /*private fun sendToActivity(stopRequest: String) {
-        var intent = Intent("STOP_REQUEST")
-        intent.putExtra("STOP_REQUEST", stopRequest)
-
-        LocalBroadcastManager.getInstance(this.activity!!.application).sendBroadcast(intent)
-    }*/
 
     private inner class messageReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -228,13 +189,17 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
             var tf = gpsSample?.timeFrame
                 //Log.i("MESSAGERECEIVER", "the message reads: $tf")
-
-            numbers_acceleration.text = numberFormat.format(gpsSample?.accelerationFrame)
-            top_speed.text = numberFormat.format(gpsSample?.topSpeed)
-            numbers_speed.text = numberFormat.format(gpsSample?.speedFrame)
-            txt_distance_remaining.text = numberFormat.format(gpsSample?.distanceRemaining())
-            txt_distance_covered.text = numberFormat.format(gpsSample?.totalDistance)
-            if (model.SpeedometerFragmentModel.size>2)//view cannot run the operation without at least 2 sets of data
+            if (numbers_acceleration != null)
+                numbers_acceleration.text = numberFormat.format(gpsSample?.accelerationFrame)
+            if (top_speed != null)
+                top_speed.text = numberFormat.format(gpsSample?.topSpeed)
+            if (numbers_speed != null)
+                numbers_speed.text = numberFormat.format(gpsSample?.speedFrame)
+            if (txt_distance_remaining != null)
+                txt_distance_remaining.text = numberFormat.format(gpsSample?.distanceRemaining())
+            if (txt_distance_covered != null)
+                txt_distance_covered.text = numberFormat.format(gpsSample?.totalDistance)
+            if (model.SpeedometerFragmentModel.size>2 && txt_average_speed!=null)//view cannot run the operation without at least 2 sets of data
                 txt_average_speed.text = numberFormat.format(model.UIModel().averageSpeed())
             model.SpeedometerFragmentModel.add(gpsSample)
 
@@ -242,19 +207,16 @@ class TimeTracker : Fragment(), View.OnClickListener {
             serviceState = serviceUpdate
             if (serviceState == false||gpsSample!!.serviceComplete)
                 stopStartButton(gpsSample!!.serviceComplete)
-            Log.i("MODELVIEW SIZE", model.SpeedometerFragmentModel.size.toString())
-            Log.i("SERVICERUNNING BOOLEAN", gpsSample?.serviceIsRunning.toString())
-
-            Log.d("BROADCASTRECEIVER", "Broadcast received")
-            accelerationView.speedTo(model.SpeedometerFragmentModel.lastElement().accelerationFrame.toFloat(), 1)
-            topSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().topSpeed.toFloat(), 1)
-            currentSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().speedFrame.toFloat(), 1)
-            //currentSpeedView.withTremble = true
+            if (accelerationView != null || topSpeedView != null || currentSpeedView!= null) {
+                accelerationView.speedTo(model.SpeedometerFragmentModel.lastElement().accelerationFrame.toFloat(), 1)
+                topSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().topSpeed.toFloat(), 1)
+                currentSpeedView.speedTo(model.SpeedometerFragmentModel.lastElement().speedFrame.toFloat(), 1)
+            }
         }
     }
 
     private fun stopStartButton(isComplete:Boolean) {
-        startButton.text = "Start"
+        startButton?.text = "Start"
         chronometer.stop()
         button_reset.visibility = View.VISIBLE
         if (isComplete) {
@@ -263,24 +225,16 @@ class TimeTracker : Fragment(), View.OnClickListener {
         else {
             serviceStoppedDialog()
         }
-
-
     }
 
     private fun toggleStartButton() {
-
         if (startButton.text == "Start" && serviceState == true)
         {
             if (chronometer.timeElapsed > 1e-9) {
                 chronometer.base = SystemClock.elapsedRealtime()
-
                 chronometer.start()
                 chronometer.base = SystemClock.elapsedRealtime() - (0*6000 + getElapsedTime().toLong()*1000)
             }
-           /* var elapsedTime: Double = getElapsedTime()
-            chronometer.base = SystemClock.elapsedRealtime() - (0*6000+elapsedTime.toLong()*1000)
-                chronometer.base =*/
-
             else
                 timer.start()// start countdown in prompter then start the service
             startButton.text = "Stop"
@@ -288,7 +242,6 @@ class TimeTracker : Fragment(), View.OnClickListener {
 
         }
         else if (startButton.text == "Start" && serviceState == false) {
-            Log.i("START AND FALSE", "Fired!!")
             val intent = Intent(activity, SpeedometerService::class.java)
             val textReceived = txt_distance_remaining.text.toString()
             if (txt_distance_remaining != null || txt_distance_remaining.inputType.equals(Int)) {
@@ -308,11 +261,9 @@ class TimeTracker : Fragment(), View.OnClickListener {
             chronometer.stop()
             startButton.text = "Start"
             Toast.makeText(activity, "Pausing ...", Toast.LENGTH_SHORT).show()
-            //sendToActivity("false")
         }
     }
     private fun startViewTimer() {
-        //var chronometer = chronometer
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.start()
     }
@@ -328,16 +279,13 @@ class TimeTracker : Fragment(), View.OnClickListener {
     }
     private fun showRunSummary()
     {
-        // show a summary of run data
         val fragmentSummary = FragmentSummary()
         val fragmentManager = activity!!.supportFragmentManager
         val fragmentTransaction =fragmentManager.beginTransaction()
-        //fragmentTransaction.remove(this)
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         fragmentTransaction.replace(R.id.fragment_summary, fragmentSummary)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-
     }
     interface OnFragmentInteraction {
         fun onFragmentInteraction(someText: String)

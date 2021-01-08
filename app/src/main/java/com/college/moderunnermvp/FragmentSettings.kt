@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +21,16 @@ class FragmentSettings : Fragment() {
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(activity as FragmentActivity).get(SharedMessage::class.java)
     }
+    var fragmentState = false
+    fun fragmentState():Boolean {
+        return fragmentState
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+    var distanceInput: EditText? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,5 +49,17 @@ class FragmentSettings : Fragment() {
                 }
             })
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragmentState = true
+        var editable = Editable.Factory()
+        distanceInput?.text = editable.newEditable("100")
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        distanceInput = view!!.findViewById(R.id.distance_input)
+        super.onResume()
     }
 }

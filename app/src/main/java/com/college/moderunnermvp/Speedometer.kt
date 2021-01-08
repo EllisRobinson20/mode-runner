@@ -20,6 +20,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_speedometer.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.sql.Date
@@ -34,6 +37,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     EasyPermissions.RationaleCallbacks, TimeTracker.OnFragmentInteraction {
 
     val devMode = false
+
     var db: SQLiteDatabase? = null
 
     var Tag: String = "Speedometer Activity"
@@ -44,11 +48,27 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     var timeTrackerTag: String = "time_tracker_tag"
     var settingsTag: String = "settings_tag"
 
+    val testModel: SharedMessage by lazy {  //for testing only
+        ViewModelProviders.of(this).get(SharedMessage::class.java)
+    }
+
     private val model: SharedMessage by lazy {
         ViewModelProviders.of(this).get(SharedMessage::class.java)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        CountingIdlingResourceSingleton.increment()
+        // again we use a kotlin coroutine to simulate a 3 second network request:
+        val job = GlobalScope.launch {
+            // our network call starts
+            delay(3000)
+        }
+        job.invokeOnCompletion {
+            // our network call ended!
+            CountingIdlingResourceSingleton.decrement()
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speedometer)
         createDB()
@@ -170,9 +190,9 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
 
         if (someText == "DestroyView") {
             Log.i("Speedometer", "View Hidden")
-            tab_layout.visibility = INVISIBLE //remove the top button tabs when not on home
+            if (tab_layout != null)
+                tab_layout.visibility = INVISIBLE //remove the top button tabs when not on home
         }
-
         var acceleration: Double = 0.0
         if (someText=="SaveState") {
             Log.i("Speedometer", "SaveState True")
@@ -188,7 +208,7 @@ class Speedometer : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
             }
 
             var row1: ContentValues = ContentValues()
-            row1.put("date", getDateTime())
+            row1.put("date", "getDateTime()")
             row1.put("targetDistance", model.SpeedometerFragmentModel.lastElement().target)
             row1.put("finishTime", model.SpeedometerFragmentModel.lastElement().overallTime)
             row1.put("topSpeed", model.SpeedometerFragmentModel.lastElement().topSpeed)
